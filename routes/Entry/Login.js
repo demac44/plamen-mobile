@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, {useState} from 'react';
+import axios from 'axios';
 import { Text, TextInput, View, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import logo from '../../Assets/images/logo-min.jpg'
 
@@ -17,7 +17,6 @@ const Login = ({navigation}) => {
         axios({
             method: 'POST',
             url: 'http://192.168.1.56:8000/api/login',
-            // url: '/api/login',
             data: {
                 username: username,
                 password: pass
