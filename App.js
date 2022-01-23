@@ -66,7 +66,7 @@ const App = () => {
           }
         }).then(response => {
           if(response.data.token && response.data.user){
-            setUser(response.user)
+            setUser(response.data.user)
             setAuthenticated(true)
             setLoading(false)
           } else {

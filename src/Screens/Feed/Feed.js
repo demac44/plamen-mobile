@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
 import { UserContext } from '../../../App';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
@@ -11,11 +11,11 @@ const Feed = ({navigation}) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <TopNavbar/>
+      <KeyboardAvoidingView enabled={false} behavior='height' style={styles.container}>
+        <TopNavbar navigation={navigation}/>
         <PostsContainer/>
-        <BottomNavbar/>
-      </View>
+        <BottomNavbar navigation={navigation}/>
+      </KeyboardAvoidingView>
     </>
     );
 };
@@ -25,6 +25,6 @@ export default Feed;
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor:"1b1b1b"
+    backgroundColor:"#1f1f1f"
   }
 })
