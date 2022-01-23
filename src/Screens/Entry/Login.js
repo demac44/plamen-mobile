@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import axios from 'axios';
 import { Text, TextInput, View, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import logo from '../../Assets/images/logo-min.jpg'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({navigation}) => {
+const Login = ({navigation, authCallback}) => {
   const [username, setUsername] = useState('')
   const [pass, setPass] = useState('')
   const [errorMsg, setErrorMsg] = useState(null)
@@ -22,18 +23,23 @@ const Login = ({navigation}) => {
                 password: pass
             },
             withCredentials: true
-        }).then(res => {
+        }).then(async res => {
             if(res?.data.error) {setErrorMsg(res.data.error)}    
             else {
-              // navigation.navigate('Feed')
-              return
+              try{
+
+                await AsyncStorage.setItem('ACCESS_TOKEN', res.data.token).catch(err => console.log(err))
+                await AsyncStorage.setItem('USER', JSON.stringify(res.data.user)).catch(err => console.log(err))
+                authCallback(true)
+                navigation.navigate('Feed')
+              }
+              catch{}
             }
         }).catch((err)=>console.log(err))
     } catch (error) {
         console.log(error);
     }
   }
-
 
   return (
     <>
