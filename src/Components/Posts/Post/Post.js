@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PostMedia from './Media/PostMedia';
 import PostTextBar from './Text bar/PostTextBar';
 import PostTopBar from './Top bar/PostTopBar';
@@ -9,7 +9,8 @@ import { useQuery } from '@apollo/client';
 import PostComments from './Bottom bar/Comments/PostComments';
 
 const Post = ({post}) => {
-    const {data, loading, error} = useQuery(GET_COMMENTS, {
+    const [loadMoreBtn, setLoadMoreBtn] = useState(true)
+    const {data, loading, fetchMore} = useQuery(GET_COMMENTS, {
         variables:{
             postID: post.postID,
             limit:1,
@@ -17,6 +18,16 @@ const Post = ({post}) => {
             uid: 32
         }
     })
+
+    const loadMore = () => {
+        fetchMore({
+            variables:{
+                limit:5,
+                offset:data?.get_post_comments?.length
+            }
+        }).then(res => res?.data?.get_post_comments?.length<=0 && setLoadMoreBtn(false))
+    }
+
 
     return (
         <View style={styles.post}>
@@ -31,7 +42,14 @@ const Post = ({post}) => {
             {post.type==='image' && <PostMedia image={post.url}/>}
             <PostTextBar text={post.post_text}/>
 
-            {!loading && <PostComments comments={data?.get_post_comments}/>}
+            {!loading && 
+            <>  
+                <PostComments comments={data?.get_post_comments}/>
+                {(data?.get_post_comments?.length>0 && loadMoreBtn) && <TouchableOpacity style={styles.loadMore} onPress={loadMore}>
+                    <Text style={styles.loadMoreBtn}>Show more</Text>
+                </TouchableOpacity>}
+            </>
+            }
         </View>
     );
 };
@@ -46,6 +64,20 @@ const styles = StyleSheet.create({
         borderColor:"#1f1f1f",
         borderLeftWidth:0,
         borderRightWidth:0
+    },
+    loadMore:{
+        width:"100%",
+        paddingTop:5,
+        display:'flex',
+        alignItems:'center'
+    },
+    loadMoreBtn:{
+        backgroundColor:"#2f2f2f",
+        paddingVertical:3,
+        paddingHorizontal:10,
+        borderTopRightRadius:10,
+        borderTopLeftRadius:10,
+        fontSize:12
     }
 })
 

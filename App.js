@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, split } from '@apollo/client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { offsetLimitPagination } from '@apollo/client/utilities';
 
 import Login from './src/Screens/Entry/Login';
 import Register from './src/Screens/Entry/Register';
@@ -40,7 +41,20 @@ const link = split(
 
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query:{
+        fields:{
+          get_post_comments:{
+            keyArgs: ['postID'],
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+          }
+        }
+      }
+    }
+   }
+}),
   credentials:"include",
 })
 
