@@ -18,7 +18,7 @@ const AddComment = (props) => {
             add_comment({
                 variables:{
                     postID: props.postID,
-                    userID: props.currUserID,
+                    userID: props.currentUser.userID,
                     comment_text: cmtText,
                     rid: props.userID,
                 }
@@ -26,9 +26,9 @@ const AddComment = (props) => {
                 findTag(cmtText).forEach(tag=>{
                     mention_notif({
                         variables:{
-                            userID: props.currUserID,
+                            userID: props.currentUser.userID,
                             postID: props.postID,
-                            username: props.currUsername,
+                            username: props.currentUser.username,
                             pfp: '',
                             rusername: tag
                         }

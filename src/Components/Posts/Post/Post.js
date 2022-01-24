@@ -42,6 +42,7 @@ const Post = ({post}) => {
                 postID={post.postID}
                 pfp={post.profile_picture}
                 timestamp={post.date_posted}
+                currentUser={user}
             />
             {post.type==='image' && <PostMedia image={post.url}/>}
             <PostTextBar text={post.post_text}/>
@@ -58,9 +59,8 @@ const Post = ({post}) => {
             <PostBottomBar 
                 postID={post.postID} 
                 userID={post.userID}
-                currUserID={user.userID}
+                currentUser={user}
                 refetchComments={refetch}
-                currUsername={user.username}
             />
             
         </View>

@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import {Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native'
+import React from 'react';
+import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native'
 import Avatar from '../../../General components/Avatar';
-import savedIcon from '../../../../Assets/images/icons/save-icon.png'
-import notSavedIcon from '../../../../Assets/images/icons/notSaved-icon.png'
 import SetTime from '../../../General components/SetTime';
+import SavePost from './components/SavePost';
 
 
 const PostTopBar = (props) => {
-    const [saved, setSaved] = useState(false)
-
     return (
         <View style={styles.topbar}>
             <TouchableWithoutFeedback onPress={()=>props.navigation.push('Profile')}>
@@ -20,9 +17,10 @@ const PostTopBar = (props) => {
                     </View>
                 </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={()=>setSaved(!saved)}>
-                <Image source={saved ? savedIcon : notSavedIcon}/>
-            </TouchableWithoutFeedback>
+            <SavePost
+                currentUserID={props.currentUser.userID}
+                postID={props.postID}
+            />
         </View>
     );
 };
