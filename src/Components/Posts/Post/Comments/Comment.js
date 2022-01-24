@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
-import Avatar from '../../../../General components/Avatar';
-import trashIcon from '../../../../../Assets/images/icons/trash-icon-min.png'
-import { UserContext } from '../../../../../../App';
+import Avatar from '../../../General components/Avatar';
+import trashIcon from '../../../../Assets/images/icons/trash-icon-min.png'
+import { UserContext } from '../../../../../App';
 
 const win = Dimensions.get('window')
 

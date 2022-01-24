@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PostMedia from './Media/PostMedia';
 import PostTextBar from './Text bar/PostTextBar';
@@ -6,9 +6,13 @@ import PostTopBar from './Top bar/PostTopBar';
 
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
-import PostComments from './Bottom bar/Comments/PostComments';
+import PostComments from './Comments/PostComments';
+import PostBottomBar from './Bottom bar/PostBottomBar';
+
+import { UserContext } from '../../../../App';
 
 const Post = ({post}) => {
+    const user = useContext(UserContext)
     const [loadMoreBtn, setLoadMoreBtn] = useState(true)
     const {data, loading, fetchMore} = useQuery(GET_COMMENTS, {
         variables:{
@@ -50,6 +54,9 @@ const Post = ({post}) => {
                 </TouchableOpacity>}
             </>
             }
+
+            <PostBottomBar postID={post.postID} userID={user.userID}/>
+            
         </View>
     );
 };

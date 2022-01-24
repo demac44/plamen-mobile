@@ -13,6 +13,7 @@ import Register from './src/Screens/Entry/Register';
 import Feed from './src/Screens/Feed/Feed';
 import { Text } from 'react-native';
 import axios from 'axios';
+import MainLoader from './src/Components/General components/Loaders/MainLoader';
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
@@ -103,7 +104,7 @@ const App = () => {
   
   return (
     <>
-      {loading ? <Text>"Loading..."</Text> :
+      {loading ? <MainLoader/> :
       <ApolloProvider client={client}>
         <UserContext.Provider value={user}>
           <NavigationContainer>
