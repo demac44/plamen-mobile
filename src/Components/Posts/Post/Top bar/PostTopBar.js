@@ -3,6 +3,7 @@ import {Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-nat
 import Avatar from '../../../General components/Avatar';
 import savedIcon from '../../../../Assets/images/icons/save-icon.png'
 import notSavedIcon from '../../../../Assets/images/icons/notSaved-icon.png'
+import SetTime from '../../../General components/SetTime';
 
 
 const PostTopBar = (props) => {
@@ -15,7 +16,7 @@ const PostTopBar = (props) => {
                     <Avatar image={props.pfp} size={35}/>
                     <View style={{marginLeft:5, padding:3}}>
                         <Text style={{fontSize:15}}>{props.fname+' '+props.lname}</Text>
-                        <Text style={{fontSize:10, marginTop:2}}>12m</Text>
+                        <Text style={{fontSize:10, marginTop:2}}><SetTime timestamp={props.timestamp} fontSize={12}/></Text>
                     </View>
                 </View>
             </TouchableWithoutFeedback>

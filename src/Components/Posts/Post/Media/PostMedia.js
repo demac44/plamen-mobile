@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Image, View } from 'react-native';
 
 const win = Dimensions.get('window')
 
 const PostMedia = ({image}) => {
-    const [size, setSize] = useState(()=>{
-        return Image.getSize(image, (w, h) => {
-            setSize({
-                width: win.width,
-                height: h * (win.width/w)
-            })
+    const [size, setSize] = useState({width:0, height:0})
+
+    useEffect(()=>{
+        setSize(()=>{
+            try{
+                return Image.getSize(image, (w, h) => {
+                    setSize({
+                        width: win.width,
+                        height: h * (win.width/w)
+                    })
+                })
+            }
+            catch{}
         })
-    })
+    }, [])
     
     return (
-        <View style={{width:"100%", height:"100%"}}>
+        <View>
             <Image source={{uri: image}} style={{height:size.height, width:size.width}}/>
         </View>
     );
 };
 
 export default PostMedia;
-
-const styles = StyleSheet.create({
-    image:{
-        height:100   
-    }
-})

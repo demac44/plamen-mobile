@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import SearchBar from './Search bar/SearchBar';
 import inboxBtn from '../../../Assets/images/icons/inbox-icon.png'
 import notifBtn from '../../../Assets/images/icons/notif-icon.png'
+import logo from '../../../Assets/images/logo-min.jpg'
 
 const TopNavbar = ({navigation}) => {
   return (
   <View style={styles.navbar}>
+      <Image source={logo} style={{height:37,width:25}}/>
       <SearchBar navigation={navigation}/>
       <View style={styles.navBtns}>
-        <Image source={notifBtn}/>
+        <Image source={notifBtn}/>          
         <Image source={inboxBtn}/>
       </View>
   </View>);
@@ -25,15 +27,13 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between',
-        paddingLeft:10,
-        paddingRight:15
+        justifyContent:'space-around',
     },
     navBtns:{
-        width:"23%",
+        width:"20%",
         display:'flex',
         flexDirection:'row',
+        alignItems:'center',
         justifyContent:'space-between',
-        alignItems:'center'
     }
 })

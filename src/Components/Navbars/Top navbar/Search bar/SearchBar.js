@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, Touchable, TouchableHighlight, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import xicon from '../../../../Assets/images/icons/x-icon.png'
 
 const SearchBar = ({navigation}) => {
@@ -7,7 +7,7 @@ const SearchBar = ({navigation}) => {
 
 
     return (
-        <View style={{display:"flex", flexDirection:"row", alignItems:'center', width:"65%"}}>
+        <View style={{display:"flex", flexDirection:"row", alignItems:'center', width:"60%"}}>
             <TextInput 
                 multiline={false} 
                 placeholder='Search...' 
@@ -16,9 +16,12 @@ const SearchBar = ({navigation}) => {
                 value={query}
                 onChangeText={text=>setQuery(text)}
                 />
-            <TouchableHighlight style={styles.exitBtn} onPress={()=>setQuery('')}>
+            <View>
+
+            <TouchableOpacity style={styles.exitBtn} onPress={()=>setQuery('')}>
                 {query.length>0 ? <Image source={xicon}/> : <Text></Text>}
-            </TouchableHighlight>
+            </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -27,7 +30,7 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
     searchBar:{
-        width:"100%",
+        width:"90%",
         borderWidth:1,
         borderStyle: "solid",
         borderColor:"#3f3f3f",
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
         paddingLeft:10,
         borderTopLeftRadius:10,
         borderBottomLeftRadius:10,
-        borderRightWidth:0
+        borderRightWidth:0,
     },
     exitBtn:{
         borderWidth:1,
