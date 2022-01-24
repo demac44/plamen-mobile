@@ -14,7 +14,7 @@ import { UserContext } from '../../../../App';
 const Post = ({post}) => {
     const user = useContext(UserContext)
     const [loadMoreBtn, setLoadMoreBtn] = useState(true)
-    const {data, loading, fetchMore} = useQuery(GET_COMMENTS, {
+    const {data, loading, fetchMore, refetch} = useQuery(GET_COMMENTS, {
         variables:{
             postID: post.postID,
             limit:1,
@@ -55,7 +55,13 @@ const Post = ({post}) => {
             </>
             }
 
-            <PostBottomBar postID={post.postID} userID={user.userID}/>
+            <PostBottomBar 
+                postID={post.postID} 
+                userID={post.userID}
+                currUserID={user.userID}
+                refetchComments={refetch}
+                currUsername={user.username}
+            />
             
         </View>
     );

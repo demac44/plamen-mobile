@@ -3,13 +3,44 @@ import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity } from 'react
 
 const win = Dimensions.get('window')
 
-const AddComment = () => {
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/client';
+
+const AddComment = (props) => {
     const [cmtText, setCmtText] = useState('')
+    const [add_comment] = useMutation(ADD_COMMENT) 
+    const [mention_notif] = useMutation(MENTION_NOTIF)
 
     const handleComment = () => {
-
+        if(cmtText.trim()===''){
+            return
+        } else{
+            add_comment({
+                variables:{
+                    postID: props.postID,
+                    userID: props.currUserID,
+                    comment_text: cmtText,
+                    rid: props.userID,
+                }
+            }).then(()=>{
+                findTag(cmtText).forEach(tag=>{
+                    mention_notif({
+                        variables:{
+                            userID: props.currUserID,
+                            postID: props.postID,
+                            username: props.currUsername,
+                            pfp: '',
+                            rusername: tag
+                        }
+                    })
+                })
+            })
+            .then(()=>{
+                props.refetchComments()
+                setCmtText('')
+            })
+        }
     }
-
     return (
         <>
             <TextInput
@@ -40,3 +71,51 @@ const styles = StyleSheet.create({
         marginHorizontal:10
     }
 })
+
+const ADD_COMMENT = gql`
+    mutation ($postID: Int!, $userID: Int!, $comment_text: String!, $rid: Int!){
+        add_comment(postID: $postID, userID: $userID, comment_text: $comment_text){
+            commentID
+        }
+        comment_notification (postID: $postID, sender_id: $userID, receiver_id: $rid){
+            postID
+        }
+    }
+`
+
+const MENTION_NOTIF = gql`
+    mutation ($postID: Int!, 
+              $userID: Int!, 
+              $username: String!, 
+              $rusername: String!,
+              $pfp: String!){
+        cmt_mention_notification (postID: $postID, 
+                              sender_id: $userID, 
+                              username: $username, 
+                              receiver_username: $rusername
+                              profile_picture: $pfp){
+            postID
+        }
+    }
+`
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+// find if user @mentioned in post
+const findTag = (post_text) => {
+    let arr = post_text.split('')
+    let namesArr = [];
+    let name=null;
+    for(let i = 0;i<arr.length;i++){
+        name=null;
+        if(arr[i]==='@'){
+            for(let j=i;j<arr.length;j++){
+                if(arr[j]===' ') {name=post_text.slice(i+1,j); break}
+                else if(j===arr.length-1) {name=post_text.slice(i+1,j+1); break}
+                else if(j===arr.length) {name=post_text.slice(i+1,-1); break}
+            }
+            name && namesArr.push(name)
+        }
+    }
+    return namesArr.filter(onlyUnique)
+}

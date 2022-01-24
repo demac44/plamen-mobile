@@ -5,7 +5,7 @@ import logoBlank from '../../../../../Assets/images/logoBlank-min.jpg'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
 
-const LikePost = ({postID, userID}) => {
+const LikePost = ({postID, currUserID, userID}) => {
     const [liked, setLiked] = useState(false)
     const [like_post] = useMutation(LIKE_POST)
     const [remove_like] = useMutation(REMOVE_LIKE)
@@ -13,7 +13,7 @@ const LikePost = ({postID, userID}) => {
     const ifLiked = useQuery(IF_LIKED, {
         variables:{
             postID: postID,
-            userID: userID
+            userID: currUserID
         }
     })
 
@@ -26,7 +26,7 @@ const LikePost = ({postID, userID}) => {
         remove_like({
             variables: {
                 postID: postID,
-                userID: userID
+                userID: currUserID
             }
         }).then(()=>{
             setLiked(false)
@@ -34,7 +34,7 @@ const LikePost = ({postID, userID}) => {
         : like_post({
             variables: {
                 postID: postID,
-                userID: userID,
+                userID: currUserID,
                 rid: userID
             }
         }).then(() => {

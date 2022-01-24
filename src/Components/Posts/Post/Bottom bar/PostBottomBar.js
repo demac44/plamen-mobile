@@ -5,11 +5,21 @@ import LikePost from './components/LikePost';
 
 
 
-const PostBottomBar = ({postID, userID}) => {
+const PostBottomBar = ({postID, userID, currUserID, refetchComments, currUsername}) => {
     return (
         <View style={styles.bar}>
-            <LikePost postID={postID} userID={userID}/>
-            <AddComment/>
+            <LikePost 
+                postID={postID} 
+                userID={userID} 
+                currUserID={currUserID}
+            />
+            <AddComment 
+                postID={postID} 
+                userID={userID} 
+                currUserID={currUserID} 
+                refetchComments={refetchComments}
+                currUsername={currUsername}
+            />
         </View>
     );
 };
