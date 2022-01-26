@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, memo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PostMedia from './Media/PostMedia';
 import PostTextBar from './Text bar/PostTextBar';
@@ -9,10 +9,7 @@ import { useQuery } from '@apollo/client';
 import PostComments from './Comments/PostComments';
 import PostBottomBar from './Bottom bar/PostBottomBar';
 
-import { UserContext } from '../../../../App';
-
-const Post = ({post}) => {
-    const user = useContext(UserContext)
+const Post = ({post, currentUser}) => {
     const [loadMoreBtn, setLoadMoreBtn] = useState(true)
     const {data, loading, fetchMore, refetch} = useQuery(GET_COMMENTS, {
         variables:{
@@ -22,7 +19,7 @@ const Post = ({post}) => {
             uid: 32
         }
     })
-
+    
     const loadMore = () => {
         fetchMore({
             variables:{
@@ -42,14 +39,14 @@ const Post = ({post}) => {
                 postID={post.postID}
                 pfp={post.profile_picture}
                 timestamp={post.date_posted}
-                currentUser={user}
+                currentUser={currentUser}
             />
             {post.type==='image' && <PostMedia image={post.url}/>}
-            <PostTextBar text={post.post_text}/>
+            {post.post_text && <PostTextBar text={post.post_text}/>}
 
             {!loading && 
             <>  
-                <PostComments comments={data?.get_post_comments}/>
+                {data?.get_post_comments?.length > 0 && <PostComments comments={data?.get_post_comments}/>}
                 {(data?.get_post_comments?.length>0 && loadMoreBtn) && <TouchableOpacity style={styles.loadMore} onPress={loadMore}>
                     <Text style={styles.loadMoreBtn}>Show more</Text>
                 </TouchableOpacity>}
@@ -59,7 +56,7 @@ const Post = ({post}) => {
             <PostBottomBar 
                 postID={post.postID} 
                 userID={post.userID}
-                currentUser={user}
+                currentUser={currentUser}
                 refetchComments={refetch}
             />
             
@@ -67,14 +64,14 @@ const Post = ({post}) => {
     );
 };
 
-export default Post
+export default memo(Post)
 
 const styles = StyleSheet.create({
     post:{
         width:"100%",
         marginTop:10,
         borderWidth:1,
-        borderColor:"#1f1f1f",
+        borderColor:"#2b2b2b",
         borderLeftWidth:0,
         borderRightWidth:0
     },

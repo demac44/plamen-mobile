@@ -8,21 +8,18 @@ const PostMedia = ({image}) => {
 
     useEffect(()=>{
         setSize(()=>{
-            try{
-                return Image.getSize(image, (w, h) => {
-                    setSize({
-                        width: win.width,
-                        height: h * (win.width/w)
-                    })
+            return Image.getSize(image, (w, h) => {
+                setSize({
+                    width: win.width,
+                    height: h * (win.width/w)
                 })
-            }
-            catch{}
+            })
         })
     }, [])
     
     return (
         <View>
-            <Image source={{uri: image}} style={{height:size.height, width:size.width}}/>
+            <Image source={{uri: image}} style={{height:size.height || 0, width:size.width || 0}}/>
         </View>
     );
 };

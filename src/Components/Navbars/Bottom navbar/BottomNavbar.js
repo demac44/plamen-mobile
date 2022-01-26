@@ -14,23 +14,23 @@ const BottomNavbar = ({navigation}) => {
 
   return (
   <View style={styles.navbar}>
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.push('Feed')}>
+      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Feed')}>
         <Image source={feedIcon}/>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.push('Explore')}>
+      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Explore')}>
           <Image source={compassIcon}/>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.push('Saved')}>
+      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Saved')}>
          <Image source={saveIcon}/>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.push('Communities')}>
+      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Communities')}>
         <Image source={cmntyIcon}/>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.push('Profile')}>
+      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Profile')}>
         <Avatar size={35} image={user?.profile_picture}/>
       </TouchableWithoutFeedback>
   </View>);
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'row',    
         alignItems:'center',
-        justifyContent:'space-around'
+        justifyContent:'space-around',
     },
     iconBox:{
         width:"20%",

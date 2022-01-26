@@ -14,6 +14,8 @@ import Feed from './src/Screens/Feed/Feed';
 import { Text } from 'react-native';
 import axios from 'axios';
 import MainLoader from './src/Components/General components/Loaders/MainLoader';
+import Saved from './src/Screens/Saved/Saved';
+import Explore from './src/Screens/Explore/Explore';
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
@@ -51,10 +53,16 @@ const client = new ApolloClient({
             merge(existing = [], incoming) {
               return [...existing, ...incoming];
           }
+        },
+          get_feed_posts:{
+            keyArgs: false,
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+          }
         }
       }
     }
-   }
+  }
 }),
   credentials:"include",
 })
@@ -112,6 +120,8 @@ const App = () => {
               {authenticated ?
               <>
                 <Stack.Screen name="Feed" component={Feed} />
+                <Stack.Screen name="Saved" component={Saved} />
+                <Stack.Screen name="Explore" component={Explore} />
               </>
               :
               <>

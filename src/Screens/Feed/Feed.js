@@ -1,43 +1,54 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, KeyboardAvoidingView, Text } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Text, ScrollView, View, FlatList } from 'react-native';
 import { UserContext } from '../../../App';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
 import PostsContainer from '../../Components/Posts/PostsContainer';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
+import UploadImage from '../../Components/Posts/Create post/components/UploadImage';
+import MainLoader from '../../Components/General components/Loaders/MainLoader';
+import StoriesContainer from '../../Components/Stories/StoriesContainer';
 
 
 const Feed = ({navigation}) => {
   const user = useContext(UserContext)
-  const {data, loading} = useQuery(FEED_POSTS, {
+    // const [set_last_seen] = useMutation(SET_LAST_SEEN)
+  const {data, loading, fetchMore} = useQuery(FEED_POSTS, {
     variables:{
       userID: 32,
-      limit:20,
+      limit:10,
       offset:0
-    }
+    },
+    fetchPolicy:'network-only'
   })
+
+  const loadMore = async () => {
+    try{
+      await fetchMore({
+        variables:{
+          limit:10,
+          offset:data?.get_feed_posts?.length 
+        }
+      })
+    }
+    catch{}
+  }
 
   return (
     <>
-    {loading ? <Text>Loading...</Text> :
-      <KeyboardAvoidingView enabled={false} behavior='height' style={styles.container}>
+    {loading ? <MainLoader/> :
+        <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
           <TopNavbar navigation={navigation}/>
-          <PostsContainer posts={data?.get_feed_posts}/>
+          <PostsContainer posts={data?.get_feed_posts} loadMore={loadMore}/>
           <BottomNavbar navigation={navigation}/>
-      </KeyboardAvoidingView>}
+        </KeyboardAvoidingView>}
     </>
   );
 };
 
 export default Feed;
 
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:"#1f1f1f"
-  }
-})
 
 const FEED_POSTS = gql`
     query ($userID: Int!, $limit: Int, $offset: Int){
@@ -74,3 +85,12 @@ const FEED_POSTS = gql`
       // get_seen_stories(userID: $userID){
       //     storyID
       // }
+
+      // const SET_LAST_SEEN = gql`
+// mutation ($userID: Int){
+// set_last_seen (userID: $userID){
+//   userID
+// }
+// }
+
+// `
