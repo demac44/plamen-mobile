@@ -55,7 +55,7 @@ const client = new ApolloClient({
           }
         },
           get_feed_posts:{
-            keyArgs: false,
+            keyArgs: ['postID'],
             merge(existing = [], incoming) {
               return [...existing, ...incoming];
           }

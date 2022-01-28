@@ -9,11 +9,13 @@ import { useQuery, useMutation } from '@apollo/client';
 import UploadImage from '../../Components/Posts/Create post/components/UploadImage';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import StoriesContainer from '../../Components/Stories/StoriesContainer';
+import PaginationLoader from '../../Components/General components/Loaders/PaginationLoader';
 
 
 const Feed = ({navigation}) => {
   const user = useContext(UserContext)
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
+  const [loader, setLoader] = useState(false)
   const {data, loading, fetchMore} = useQuery(FEED_POSTS, {
     variables:{
       userID: 32,
@@ -23,16 +25,14 @@ const Feed = ({navigation}) => {
     fetchPolicy:'network-only'
   })
 
-  const loadMore = async () => {
-    try{
-      await fetchMore({
+  const loadMore = () => {
+      setLoader(true)
+      fetchMore({
         variables:{
           limit:10,
           offset:data?.get_feed_posts?.length 
         }
-      })
-    }
-    catch{}
+    }).then(()=>setLoader(false))
   }
 
   return (
@@ -63,6 +63,8 @@ const FEED_POSTS = gql`
         username
         profile_picture
         type
+        width
+        height
       }
     }
     `

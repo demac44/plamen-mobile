@@ -31,36 +31,38 @@ const Post = ({post, currentUser}) => {
 
 
     return (
-        <View style={styles.post}>
-            <PostTopBar 
-                fname={post.first_name}
-                lname={post.last_name}
-                username={post.username}
-                postID={post.postID}
-                pfp={post.profile_picture}
-                timestamp={post.date_posted}
-                currentUser={currentUser}
-            />
-            {post.type==='image' && <PostMedia image={post.url}/>}
-            {post.post_text && <PostTextBar text={post.post_text}/>}
+        <>
+            <View style={styles.post}>
+                <PostTopBar 
+                    fname={post.first_name}
+                    lname={post.last_name}
+                    username={post.username}
+                    postID={post.postID}
+                    pfp={post.profile_picture}
+                    timestamp={post.date_posted}
+                    currentUser={currentUser}
+                />
+                {post.type==='image' && <PostMedia image={post.url} width={post.width} height={post.height}/>}
+                {post.post_text && <PostTextBar text={post.post_text}/>}
 
-            {!loading && 
-            <>  
-                {data?.get_post_comments?.length > 0 && <PostComments comments={data?.get_post_comments}/>}
-                {(data?.get_post_comments?.length>0 && loadMoreBtn) && <TouchableOpacity style={styles.loadMore} onPress={loadMore}>
-                    <Text style={styles.loadMoreBtn}>Show more</Text>
-                </TouchableOpacity>}
-            </>
-            }
+                {!loading && 
+                <>  
+                    {data?.get_post_comments?.length > 0 && <PostComments comments={data?.get_post_comments}/>}
+                    {(data?.get_post_comments?.length>0 && loadMoreBtn) && <TouchableOpacity style={styles.loadMore} onPress={loadMore}>
+                        <Text style={styles.loadMoreBtn}>Show more</Text>
+                    </TouchableOpacity>}
+                </>
+                }
 
-            <PostBottomBar 
-                postID={post.postID} 
-                userID={post.userID}
-                currentUser={currentUser}
-                refetchComments={refetch}
-            />
-            
-        </View>
+                <PostBottomBar 
+                    postID={post.postID} 
+                    userID={post.userID}
+                    currentUser={currentUser}
+                    refetchComments={refetch}
+                    />
+                
+            </View>
+        </>
     );
 };
 

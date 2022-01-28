@@ -1,27 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo } from 'react';
 import { Dimensions, Image, View } from 'react-native';
 
 const win = Dimensions.get('window')
 
-const PostMedia = ({image}) => {
-    const [size, setSize] = useState({width:0, height:0})
+const PostMedia = ({image, width, height}) => {
 
-    useEffect(()=>{
-        setSize(()=>{
-            return Image.getSize(image, (w, h) => {
-                setSize({
-                    width: win.width,
-                    height: h * (win.width/w)
-                })
-            })
-        })
-    }, [])
-    
+    let h = (height/width)*win.width
+
     return (
         <View>
-            <Image source={{uri: image}} style={{height:size.height || 0, width:size.width || 0}}/>
+            <Image source={{uri: image}} style={{width:win.width, height:h || win.height/1.5}} resizeMode='contain'/>
         </View>
     );
 };
 
-export default PostMedia;
+export default memo(PostMedia);
