@@ -4,20 +4,9 @@ import defaultAvatar from '../../Assets/images/pfp-min.jpg'
 
 const Avatar = ({size, image}) => {
     return (
-        <View style={{...styles.avatar, width:size, height:size}}>
-            <Image source={image ? {uri: image} : defaultAvatar} style={styles.avatarImg}/>
+        <View style={{borderRadius:5}}>
+            <Image source={image ? {uri: image} : defaultAvatar} style={{width:size, height:size, borderRadius:5}}/>
         </View>);
 };
 
 export default Avatar;
-
-const styles = StyleSheet.create({
-    avatar:{
-        borderRadius:5,
-    },
-    avatarImg:{
-        width:"100%",
-        height:"100%",
-        borderRadius:5
-    }
-})

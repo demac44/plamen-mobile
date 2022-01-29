@@ -16,6 +16,7 @@ import axios from 'axios';
 import MainLoader from './src/Components/General components/Loaders/MainLoader';
 import Saved from './src/Screens/Saved/Saved';
 import Explore from './src/Screens/Explore/Explore';
+import Story from './src/Components/Stories/Story';
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
@@ -48,17 +49,29 @@ const client = new ApolloClient({
     typePolicies: {
       Query:{
         fields:{
-          get_post_comments:{
-            keyArgs: ['postID'],
-            merge(existing = [], incoming) {
-              return [...existing, ...incoming];
+        get_post_comments:{
+          keyArgs: ['postID'],
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
           }
         },
-          get_feed_posts:{
-            keyArgs: ['postID'],
-            merge(existing = [], incoming) {
-              return [...existing, ...incoming];
+        get_feed_posts:{
+          keyArgs: ['postID'],
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
           }
+        },
+        get_saved_posts:{
+          keyArgs: ['postID'],
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
+        }
+        },
+        random_posts:{
+          keyArgs: ['postID'],
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
+        }
         }
       }
     }
@@ -119,9 +132,10 @@ const App = () => {
             <Stack.Navigator initialRouteName='Feed' screenOptions={{headerShown: false}}>
               {authenticated ?
               <>
-                <Stack.Screen name="Feed" component={Feed} />
-                <Stack.Screen name="Saved" component={Saved} />
-                <Stack.Screen name="Explore" component={Explore} />
+                <Stack.Screen name="Feed" component={Feed}/>
+                <Stack.Screen name="Saved" component={Saved}/>
+                <Stack.Screen name="Explore" component={Explore}/>
+                <Stack.Screen name="Story" component={Story}/>
               </>
               :
               <>

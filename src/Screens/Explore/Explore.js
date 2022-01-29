@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
-import { ScrollView } from 'react-native';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
-import PostsContainer from '../../Components/Posts/PostsContainer';
 import { UserContext } from '../../../App';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
+import ExplorePostsContainer from '../../Components/Posts/ExplorePostsContainer';
 
 const Explore = ({navigation}) => {
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
     const currentUser = useContext(UserContext)
+    const [loader, setLoader] = useState(false)
     const {loading, data, refetch, fetchMore} = useQuery(RANDOM_POSTS, {
         variables:{
             uid: currentUser.userID,
@@ -20,36 +20,24 @@ const Explore = ({navigation}) => {
         }
     })
 
+    const loadMore = async () => {
+        setLoader(true)
+          await fetchMore({
+            variables:{
+              limit:10,
+              offset:data?.random_posts?.length 
+            }
+          }).then(()=>setLoader(false))
+      }
 
-    // const scrollPagination = () => {
-    //     window.onscroll = async ()=>{
-    //         if(Math.round(window.scrollY+window.innerHeight) >= document.body.scrollHeight-window.innerHeight){
-    //             try {
-    //                 await fetchMore({
-    //                     variables:{
-    //                         offset:data?.random_posts?.length,
-    //                     },
-    //                     updateQuery: (prev, { fetchMoreResult }) => {
-    //                         if (!fetchMoreResult) return prev;
-    //                         return Object.assign({}, prev, {
-    //                           random_posts: [...data.random_posts, ...fetchMoreResult?.random_posts]
-    //                         });
-    //                       }
-    //                 })
-    //             } catch{}
-    //         }
-    //     }
-    // }
 
     return (
         <>
         {loading ? <MainLoader/> :
             <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
-              <TopNavbar navigation={navigation}/>
-              <ScrollView style={{flex:1}}>
-                <PostsContainer posts={data?.random_posts}/>
-              </ScrollView>
-              <BottomNavbar navigation={navigation}/>
+                <TopNavbar navigation={navigation}/>
+                <ExplorePostsContainer posts={data?.random_posts} refetchPosts={refetch} loadMore={loadMore} loader={loader}/>
+                <BottomNavbar navigation={navigation}/>
             </KeyboardAvoidingView>}
         </>
     );

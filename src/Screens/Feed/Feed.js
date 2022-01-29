@@ -1,15 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, KeyboardAvoidingView, Text, ScrollView, View, FlatList } from 'react-native';
+import { KeyboardAvoidingView} from 'react-native';
 import { UserContext } from '../../../App';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
-import PostsContainer from '../../Components/Posts/PostsContainer';
+import FeedPostsContainer from '../../Components/Posts/FeedPostsContainer';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
-import UploadImage from '../../Components/Posts/Create post/components/UploadImage';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
-import StoriesContainer from '../../Components/Stories/StoriesContainer';
-import PaginationLoader from '../../Components/General components/Loaders/PaginationLoader';
 
 const Feed = ({navigation}) => {
   const user = useContext(UserContext)
@@ -24,9 +21,9 @@ const Feed = ({navigation}) => {
     fetchPolicy:'network-only'
   })
 
-  const loadMore = () => {
+  const loadMore = async () => {
       setLoader(true)
-      fetchMore({
+      await fetchMore({
         variables:{
           limit:10,
           offset:data?.get_feed_posts?.length 
@@ -39,12 +36,18 @@ const Feed = ({navigation}) => {
     {loading ? <MainLoader/> :
         <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
           <TopNavbar navigation={navigation}/>
-          <PostsContainer posts={data?.get_feed_posts} loadMore={loadMore} refetchPosts={refetch}/>
+          <FeedPostsContainer 
+            posts={data?.get_feed_posts} 
+            stories={data?.get_stories}
+            loadMore={loadMore} 
+            refetchPosts={refetch} 
+            loader={loader}
+          />
           <BottomNavbar navigation={navigation}/>
         </KeyboardAvoidingView>}
     </>
   );
-};
+}
 
 export default Feed;
 
@@ -64,6 +67,21 @@ const FEED_POSTS = gql`
         type
         width
         height
+      }
+      get_stories (userID: $userID){
+        first_name
+        last_name
+        storyID
+        type
+        profile_picture
+        username
+        userID
+        stories {
+            date_posted
+            storyID
+            url
+            type
+        }
       }
     }
     `

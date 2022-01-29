@@ -1,19 +1,17 @@
-import React, { useContext } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useContext, useState } from 'react';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
-import PostsContainer from '../../Components/Posts/PostsContainer';
-
+import SavedPostsContainer from '../../Components/Posts/SavedPostsContainer'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
 import { UserContext } from '../../../App';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Saved = ({navigation}) => {
     const currentUser = useContext(UserContext)
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
+    const [loader, setLoader] = useState(false)
     const {loading, data, fetchMore, refetch} = useQuery(GET_SAVED, { 
         variables: {
             userID: currentUser.userID,
@@ -23,15 +21,13 @@ const Saved = ({navigation}) => {
     })
 
     const loadMore = async () => {
-        try{
+        setLoader(true)
           await fetchMore({
             variables:{
               limit:10,
               offset:data?.get_saved_posts?.length 
             }
-          })
-        }
-        catch{}
+          }).then(()=>setLoader(false))
       }
 
     return (
@@ -39,10 +35,7 @@ const Saved = ({navigation}) => {
             {loading ? <MainLoader/> :
             <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
                 <TopNavbar navigation={navigation}/>
-                <SafeAreaView style={{flex:1}}>
-                    <Text style={styles.title}>Saved posts</Text>
-                    <PostsContainer posts={data?.get_saved_posts} loadMore={loadMore}/>
-                </SafeAreaView>
+                <SavedPostsContainer posts={data?.get_saved_posts} refetchPosts={refetch} loadMore={loadMore} loader={loader}/>
                 <BottomNavbar navigation={navigation}/>
             </KeyboardAvoidingView>}
         </>
@@ -76,15 +69,3 @@ const GET_SAVED = gql`
 
 // `
 
-const styles = StyleSheet.create({
-    title:{
-        width:"100%", 
-        textAlign:'center',
-        padding:10,
-        borderWidth:1,
-        borderColor:"#2f2f2f",
-        borderRadius:5,
-        marginTop:5,
-        backgroundColor:"#1b1b1b",
-    }
-})
