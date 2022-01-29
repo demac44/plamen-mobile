@@ -1,52 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Dimensions, Image, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import Avatar from '../General components/Avatar';
+import StoryTopBar from './components/Top bar/StoryTopBar';
+import StoryBottomBar from './components/Bottom bar/StoryBottomBar';
+import StoryMedia from './components/Media/StoryMedia';
 
 const win = Dimensions.get('window')
 
 const Story = () => {
     const navigation = useNavigation()
     const state = navigation.getState()
+    const [touchTime, setTouchTime] = useState(0)
     const sid = state.routes[1].params["storyID"]
     const {data, loading} = useQuery(GET_STORY,{
         variables:{
             storyID: sid
         }
     })
-    const [size, setSize] = useState({height:0})
 
-    useEffect(()=>{
-        !loading && Image.getSize(data?.get_story?.url, (w, h)=>{
-            setSize({
-                height:(h/w)*win.width
-            })
-        })
-    }, [data])
-
+ 
 
     return (
-        <View style={styles.container} onTouchEnd={(e)=>{
-            if(e.nativeEvent.locationX>win.width/2) console.log('left');
-            else console.log('right');
-        }}>
-            <View style={{flex:0.1}}>
-                <Avatar image={data?.get_story?.profile_picture} size={50}/>
-                <Text>{data?.get_story?.username}</Text>
-                <TouchableOpacity onPress={()=>navigation.navigate('Feed')}>
-                    <Text>Go back</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.mediaBox}>
-                {!loading && <Image source={{uri: data?.get_story?.url}} style={{width:win.width, height:size.height, maxHeight:win.height}}/>}
-            </View>
-            <View style={{flex:0.1}}>
-                <TextInput style={{width:"100%"}} placeholder='Reply' placeholderTextColor="#aaa"/>
-            </View>
-        </View>
+        <KeyboardAvoidingView style={styles.container} 
+            onTouchEnd={(e)=>{
+                if(e.nativeEvent.locationX>win.width/2) console.log('left');
+                else console.log('right');
+            }}
+        >
+            {!loading && <StoryTopBar pfp={data?.get_story?.profile_picture} navigation={navigation} username={data?.get_story?.username}/>}
+
+            <StoryMedia url={data?.get_story?.url}/>
+
+            <StoryBottomBar/>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -62,7 +51,7 @@ const styles = {
         display:'flex', 
         alignItems:"center", 
         justifyContent:'center',
-        flex:0.8
+        flex:1
     }
 
 }

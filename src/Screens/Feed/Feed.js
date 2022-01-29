@@ -38,7 +38,7 @@ const Feed = ({navigation}) => {
           <TopNavbar navigation={navigation}/>
           <FeedPostsContainer 
             posts={data?.get_feed_posts} 
-            stories={data?.get_stories}
+            stories={data?.get_stories_alt}
             loadMore={loadMore} 
             refetchPosts={refetch} 
             loader={loader}
@@ -68,20 +68,11 @@ const FEED_POSTS = gql`
         width
         height
       }
-      get_stories (userID: $userID){
-        first_name
-        last_name
+      get_stories_alt(userID: $userID){
         storyID
-        type
+        userID
         profile_picture
         username
-        userID
-        stories {
-            date_posted
-            storyID
-            url
-            type
-        }
       }
     }
     `
@@ -113,3 +104,19 @@ const FEED_POSTS = gql`
 // }
 
 // `
+
+// get_stories (userID: $userID){
+//   first_name
+//   last_name
+//   storyID
+//   type
+//   profile_picture
+//   username
+//   userID
+//   stories {
+//       date_posted
+//       storyID
+//       url
+//       type
+//   }
+// }

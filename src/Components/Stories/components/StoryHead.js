@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Avatar from '../../General components/Avatar';
 
 const StoryHead = ({storyID, image, username}) => {
@@ -11,7 +11,7 @@ const StoryHead = ({storyID, image, username}) => {
             <View style={styles.storyAvatar}>
                 <Avatar image={image} size={60}/>
             </View>
-            <Text>{username}</Text>
+            <Text style={{marginTop:5}}>{username}</Text>
         </TouchableOpacity>
     );
 };
@@ -21,7 +21,7 @@ export default StoryHead;
 const styles = StyleSheet.create({
     storyAvatar:{
         borderWidth:3,
-        borderColor:"#ffbb00",
+        borderColor:"yellowgreen",
         height:67,
         borderRadius:10
     },
