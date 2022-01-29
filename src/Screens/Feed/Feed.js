@@ -11,12 +11,11 @@ import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import StoriesContainer from '../../Components/Stories/StoriesContainer';
 import PaginationLoader from '../../Components/General components/Loaders/PaginationLoader';
 
-
 const Feed = ({navigation}) => {
   const user = useContext(UserContext)
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
   const [loader, setLoader] = useState(false)
-  const {data, loading, fetchMore} = useQuery(FEED_POSTS, {
+  const {data, loading, fetchMore, refetch} = useQuery(FEED_POSTS, {
     variables:{
       userID: 32,
       limit:10,
@@ -40,7 +39,7 @@ const Feed = ({navigation}) => {
     {loading ? <MainLoader/> :
         <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
           <TopNavbar navigation={navigation}/>
-          <PostsContainer posts={data?.get_feed_posts} loadMore={loadMore}/>
+          <PostsContainer posts={data?.get_feed_posts} loadMore={loadMore} refetchPosts={refetch}/>
           <BottomNavbar navigation={navigation}/>
         </KeyboardAvoidingView>}
     </>
