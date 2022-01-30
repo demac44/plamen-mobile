@@ -22,8 +22,6 @@ const CreatePost = ({refetchPosts, currentUser}) => {
 
     const [new_post] = useMutation(NEW_POST)
 
-
-
     const handleSubmit = async () => {      
 
         if(postText.trim().length < 1 && !image && !video){
@@ -32,31 +30,29 @@ const CreatePost = ({refetchPosts, currentUser}) => {
             setLengthErr(true)
         } else {
             if (image){
-                const data =  {
-                    "file": {name: image.fileName, size: image.fileSize, uri: image.uri, type: image.type}, 
-                    "upload_preset": "z8oybloj", 
-                    "folder": "Posts", 
-                    "cloud_name": "de5mm13ux"
+                setLoading(true) 
+                let base64Img = `data:${image.type};base64,${image.base64}`
+                const data = {
+                    "file": base64Img,
+                    "upload_preset": "image_post_r"
                 }
-
-                // const newData = {name: image.fileName, size: image.fileSize, uri: image.uri, type: image.type}
-
-                const base64 = `data:${image.type};base64,${image.base64}`
-
-                // data.append("file", base64)
-                // data.append("upload_preset", "z8oybloj")
-                // data.append("folder", "Posts")
-                // data.append("cloud_name", "de5mm13ux")
-                // data.append("resource_type", "image")
-                await axios.post("https://api.cloudinary.com/v1_1/de5mm13ux/image/upload", data)
+                await axios({
+                    method: 'POST',
+                    url: "https://api.cloudinary.com/v1_1/de5mm13ux/image/upload", 
+                    data: JSON.stringify(data),
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                })
                 .then(res => {
-                    setLoading(true) 
                     new_post({
                         variables: {
                             userID: currentUser.userID,
                             text: cleanText(postText),
-                            url: res.data.url,
-                            type:'image'
+                            url: res.data.secure_url,
+                            type:'image',
+                            width:res.data.width,
+                            height:res.data.height
                         }
                     })   
                     .then(res=>{
@@ -80,7 +76,7 @@ const CreatePost = ({refetchPosts, currentUser}) => {
                         refetchPosts()
                         setPostText('')
                     }
-                    )}).catch(err => console.log(err.message))
+                    ).catch(err => console.log(err))}).catch(err => console.log(err.message))
             } else if (video) {
                 setLoading(true) 
                 const data = new FormData()
@@ -94,7 +90,9 @@ const CreatePost = ({refetchPosts, currentUser}) => {
                             userID: userID,
                             text: cleanText(postText),
                             url: res.data.url,
-                            type:'video'
+                            type:'video',
+                            width:res.data.width,
+                            height:res.data.height
                         }
                     })      
                     .then(res=>{
@@ -219,8 +217,8 @@ const CreatePost = ({refetchPosts, currentUser}) => {
 export default CreatePost
 
 const NEW_POST = gql`
-    mutation ($userID: Int!, $text: String!, $url: String!, $type: String!){
-        new_post(userID: $userID, post_text: $text, url: $url, type: $type){
+    mutation ($userID: Int!, $text: String!, $url: String!, $type: String!, $width: Int!, $height: Int!){
+        new_post(userID: $userID, post_text: $text, url: $url, type: $type, width: $width, height: $height){
             postID
         }
     }
@@ -265,13 +263,16 @@ const findTag = (post_text) => {
 }
 
 const cleanText = (text) => {
-    text = text.replace('"', "''");
-    text = text.replace('@', ' @')
-    if(text.includes('<')){
-        text = text.replace('<', '<\u200b')
+    if(text.length>0){
+        text = text.replace('"', "''");
+        text = text.replace('@', ' @')
+        if(text.includes('<')){
+            text = text.replace('<', '<\u200b')
+        }
+        return text
     }
 
-    return text
+    return ''
 }
 
 const styles = StyleSheet.create({

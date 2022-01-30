@@ -26,7 +26,7 @@ const FeedPostsContainer = ({posts, stories, loadMore, refetchPosts, loader}) =>
                 ListHeaderComponent={
                 <>
                     <StoriesContainer stories={stories}/>
-                    <CreatePost/>
+                    <CreatePost currentUser={user} refetchPosts={refetchPosts}/>
                 </>}
                 ListFooterComponent={
                     <>

@@ -43,7 +43,7 @@ const Post = ({post, currentUser}) => {
                     currentUser={currentUser}
                 />
                 {post.type==='image' && <PostMedia image={post.url} width={post.width} height={post.height}/>}
-                {post.post_text && <PostTextBar text={post.post_text}/>}
+                {(post.post_text!==null && post.post_text.length>0) && <PostTextBar text={post.post_text}/>}
 
                 {!loading && 
                 <>  

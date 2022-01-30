@@ -6,12 +6,12 @@ const PostTextBar = ({text}) => {
 
     return (
         <View style={styles.bar}>
-            {text.length>200 
+            {text?.length>200 
             ?
             (
                 <>
                     {readMore ? <Text>{text} <Text style={{color:"teal"}} onPress={()=>setReadMore(false)}>Read less</Text></Text> :
-                    <Text>{text.slice(0,200)}<Text style={{color:"teal"}} onPress={()=>setReadMore(true)}>. . .Read more</Text></Text>}
+                    <Text>{text?.slice(0,200)}<Text style={{color:"teal"}} onPress={()=>setReadMore(true)}>. . .Read more</Text></Text>}
                 </>
             )
             : <Text>{text}</Text>}

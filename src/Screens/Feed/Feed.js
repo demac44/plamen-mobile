@@ -12,7 +12,7 @@ const Feed = ({navigation}) => {
   const user = useContext(UserContext)
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
   const [loader, setLoader] = useState(false)
-  const {data, loading, fetchMore, refetch} = useQuery(FEED_POSTS, {
+  const {data, loading, fetchMore, refetch, error} = useQuery(FEED_POSTS, {
     variables:{
       userID: 32,
       limit:10,
