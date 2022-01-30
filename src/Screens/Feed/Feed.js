@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { KeyboardAvoidingView} from 'react-native';
 import { UserContext } from '../../../App';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
@@ -7,6 +7,7 @@ import FeedPostsContainer from '../../Components/Posts/FeedPostsContainer';
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Feed = ({navigation}) => {
   const user = useContext(UserContext)
@@ -21,6 +22,10 @@ const Feed = ({navigation}) => {
     fetchPolicy:'network-only'
   })
 
+  useEffect(()=>{
+      data?.get_stories_alt && AsyncStorage.setItem('ALL_STORIES', JSON.stringify(data?.get_stories_alt[0]?.allStories)).catch(err => console.log(err))
+  }, [data])
+
   const loadMore = async () => {
       setLoader(true)
       await fetchMore({
@@ -31,18 +36,20 @@ const Feed = ({navigation}) => {
     }).then(()=>setLoader(false))
   }
 
+  if(error) console.log(error);
+
   return (
     <>
     {loading ? <MainLoader/> :
         <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
           <TopNavbar navigation={navigation}/>
-          <FeedPostsContainer 
+          {!loading && <FeedPostsContainer 
             posts={data?.get_feed_posts} 
-            stories={data?.get_stories_alt}
+            stories={JSON.stringify(data?.get_stories_alt[0]?.storyHeads)}
             loadMore={loadMore} 
             refetchPosts={refetch} 
             loader={loader}
-          />
+          />}
           <BottomNavbar navigation={navigation}/>
         </KeyboardAvoidingView>}
     </>
@@ -69,10 +76,18 @@ const FEED_POSTS = gql`
         height
       }
       get_stories_alt(userID: $userID){
-        storyID
-        userID
-        profile_picture
-        username
+        storyHeads{
+          storyID
+          username
+          profile_picture
+          userID
+        }
+        allStories{
+          storyID
+          username
+          profile_picture
+          userID
+        }
       }
     }
     `

@@ -2,46 +2,62 @@ import React, { useEffect, useState } from 'react';
 import { Dimensions, View, Image } from 'react-native';
 const win = Dimensions.get('window')
 
-const StoryMedia = ({url}) => {
+const StoryMedia = ({url, stories, navigation, sid}) => {
     const [size, setSize] = useState({height:0})
 
+    const nextStory = () => {
+        findNextStory()===-1 ?
+        navigation.navigate('Feed')
+        : navigation.navigate('Story', {storyID: findNextStory()})
+    }
+
+    const previousStory = () => {
+        findPreviousStory()===-1 ?
+        navigation.navigate('Feed')
+        : navigation.navigate('Story', {storyID: findPreviousStory()})
+    }
+
+    const findNextStory = () => {
+        for(let i=0;i<stories.length;i++){
+            if(stories[i].storyID===sid){
+                if(i===stories.length-1) return -1
+                return stories[i+1].storyID
+            }
+        }
+        return -1
+    }
+
+    const findPreviousStory = () => {
+        for(let i=0;i<stories.length;i++){
+            if(stories[i].storyID===sid){
+                if(i===0) return -1
+                return stories[i-1].storyID
+            }
+        }
+        return -1
+    }
+
     useEffect(()=>{
-        Image.getSize(url, (w, h)=>{
+        url && Image.getSize(url, (w, h)=>{
             setSize({
                 height:(h/w)*win.width
             })
         })
     }, [url])
 
-    console.log(sort());
-
     return (
-        <View style={styles.mediaBox}>
+        <View style={styles.mediaBox}
+            onTouchEnd={(e)=>{
+                if(e.nativeEvent.locationX>win.width/2) nextStory()
+                else previousStory()
+            }}
+        >
             <Image source={{uri: url}} style={{width:win.width, height:size.height, maxHeight:win.height}}/>
         </View>
     );
 };
 
 export default StoryMedia;
-
-
-const sort = () => {
-    const a = [6,0,3,1,4,9]
-    const arr = [1,6,7,4,9,3,6,6,0,3]
-    let b = []
-
-    for(let i=0;i<a.length;i++){
-        let c = a[i]
-        arr.forEach(e => {
-            if(e===c) b.push(e)
-        })
-    }
-
-    return b
-
-}
-
-
 
 const styles = {
     mediaBox:{

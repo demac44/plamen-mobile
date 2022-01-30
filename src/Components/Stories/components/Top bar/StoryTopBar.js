@@ -7,7 +7,7 @@ const StoryTopBar = ({pfp, username, navigation}) => {
 
     return (
         <View style={styles.bar}>
-            <TouchableOpacity style={{display:'flex', flexDirection:"row", alignItems:'center'}} onPress={()=>navigation.push('Profile', {username})}>
+            <TouchableOpacity style={{display:'flex', flexDirection:"row", alignItems:'center'}} onPress={()=>navigation.navigate('Profile', {username})}>
                 <Avatar image={pfp} size={40}/>
                 <Text style={{marginLeft:10, fontSize:16}}>{username}</Text>
             </TouchableOpacity>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, Image, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
@@ -13,6 +14,7 @@ const win = Dimensions.get('window')
 const Story = () => {
     const navigation = useNavigation()
     const state = navigation.getState()
+    const [stories, setStories] = useState([])
     const [touchTime, setTouchTime] = useState(0)
     const sid = state.routes[1].params["storyID"]
     const {data, loading} = useQuery(GET_STORY,{
@@ -21,18 +23,19 @@ const Story = () => {
         }
     })
 
- 
+    const getStories = async () => {
+        await AsyncStorage.getItem('ALL_STORIES').then(res => setStories(JSON.parse(res)))
+    }
+
+    useEffect(()=>{
+        getStories()
+    }, [])
 
     return (
-        <KeyboardAvoidingView style={styles.container} 
-            onTouchEnd={(e)=>{
-                if(e.nativeEvent.locationX>win.width/2) console.log('left');
-                else console.log('right');
-            }}
-        >
-            {!loading && <StoryTopBar pfp={data?.get_story?.profile_picture} navigation={navigation} username={data?.get_story?.username}/>}
+        <KeyboardAvoidingView enabled={false} behavior='height' style={styles.container}>
+            <StoryTopBar pfp={data?.get_story?.profile_picture} navigation={navigation} username={data?.get_story?.username}/>
 
-            <StoryMedia url={data?.get_story?.url}/>
+            <StoryMedia url={data?.get_story?.url} stories={stories} navigation={navigation} sid={sid}/>
 
             <StoryBottomBar/>
         </KeyboardAvoidingView>
