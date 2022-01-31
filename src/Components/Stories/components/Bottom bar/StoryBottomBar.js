@@ -1,13 +1,28 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Dimensions } from 'react-native';
 
-const StoryBottomBar = () => {
+const win = Dimensions.get('window')
+
+const StoryBottomBar = ({noOfStories, sid}) => {
     return (
-        <View style={styles.bar}>
-            <TextInput style={styles.input} placeholder='Reply' placeholderTextColor="#4f4f4f"/>
-            <TouchableOpacity style={styles.postBtn}>
-                <Text style={{fontSize:15}}>SEND</Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.countBars}>
+                {noOfStories?.map(n => 
+                    <View 
+                        style={{...styles.countBar, 
+                                width: win.width/noOfStories.length-10, 
+                                backgroundColor: n.storyID===sid ? "white" : "#7f7f7f"
+                            }} 
+                        key={n.storyID}>
+                    </View>)}
+            </View>
+
+            <View style={styles.bottom}>
+                <TextInput style={styles.input} placeholder='Reply' placeholderTextColor="#4f4f4f"/>
+                <TouchableOpacity style={styles.postBtn}>
+                    <Text style={{fontSize:15}}>SEND</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -15,17 +30,21 @@ const StoryBottomBar = () => {
 export default StoryBottomBar;
 
 const styles = {
-    bar:{
+    container:{
+        width:"100%",
+        flex:0.1, 
+        paddingLeft:5,
+        paddingRight:5,
+        position:'absolute',
+        bottom:5
+    },
+    bottom:{
         width:"100%",
         flex:0.1, 
         display:'flex', 
         flexDirection:"row",
         alignItems:'center',
-        paddingLeft:5,
-        paddingRight:5,
         justifyContent:"space-between",
-        position:'absolute',
-        bottom:10
     },
     input:{
         width:"80%",
@@ -34,7 +53,8 @@ const styles = {
         borderRadius:5,
         fontSize:16,
         paddingLeft:10,
-        height:45
+        height:45,
+        backgroundColor:"#1f1f1f"
     },
     postBtn:{
         backgroundColor:"#104b41",
@@ -46,4 +66,16 @@ const styles = {
         alignItems:'center',
         justifyContent:"center"
     },
+    countBars:{
+        width:"100%",
+        display:'flex', 
+        flexDirection:"row",
+        alignItems:'center',
+        justifyContent:"space-around",
+        paddingBottom:10
+    },
+    countBar:{
+        height:5,
+        borderRadius:5
+    }
 }

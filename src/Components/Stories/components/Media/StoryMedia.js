@@ -52,7 +52,10 @@ const StoryMedia = ({url, stories, navigation, sid}) => {
                 else previousStory()
             }}
         >
-            <Image source={{uri: url}} style={{width:win.width, height:size.height, maxHeight:win.height}}/>
+            <Image 
+                source={{uri: url}} 
+                style={{width:win.width, height:size.height, maxHeight:win.height}}
+            />
         </View>
     );
 };
@@ -66,7 +69,6 @@ const styles = {
         justifyContent:'center',
         flex:1
     }
-
 }
 
 

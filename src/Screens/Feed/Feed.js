@@ -24,6 +24,7 @@ const Feed = ({navigation}) => {
 
   useEffect(()=>{
       data?.get_stories_alt && AsyncStorage.setItem('ALL_STORIES', JSON.stringify(data?.get_stories_alt[0]?.allStories)).catch(err => console.log(err))
+      data?.get_stories_alt && AsyncStorage.setItem('STORIES_UIDS', JSON.stringify(data?.get_stories_alt[0]?.userIDs)).catch(err => console.log(err))
   }, [data])
 
   const loadMore = async () => {
@@ -86,6 +87,10 @@ const FEED_POSTS = gql`
           storyID
           username
           profile_picture
+          userID
+        }
+        userIDs{
+          storyID
           userID
         }
       }
