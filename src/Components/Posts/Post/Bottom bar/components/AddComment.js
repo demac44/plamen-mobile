@@ -44,7 +44,7 @@ const AddComment = (props) => {
     return (
         <>
             <TextInput
-                placeholder='Comment...'
+                placeholder='Add comment...'
                 placeholderTextColor="#4f4f4f"
                 style={styles.input}
                 value={cmtText}

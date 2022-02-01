@@ -17,6 +17,8 @@ import MainLoader from './src/Components/General components/Loaders/MainLoader';
 import Saved from './src/Screens/Saved/Saved';
 import Explore from './src/Screens/Explore/Explore';
 import Story from './src/Components/Stories/Story';
+import Chats from './src/Screens/Chat/Chats';
+import Chat from './src/Screens/Chat/Chat';
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
@@ -136,6 +138,8 @@ const App = () => {
                 <Stack.Screen name="Saved" component={Saved}/>
                 <Stack.Screen name="Explore" component={Explore}/>
                 <Stack.Screen name="Story" component={Story}/>
+                <Stack.Screen name="Chats" component={Chats}/>
+                <Stack.Screen name="Chat" component={Chat}/>
               </>
               :
               <>
