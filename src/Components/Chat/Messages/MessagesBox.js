@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, ScrollView, Text, View } from 'react-native';
 
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
+import Message from './Message/Message';
 
 const MessagesBox = ({receiver, sender}) => {
     const [loader, setLoader] = useState(false)
@@ -18,6 +19,8 @@ const MessagesBox = ({receiver, sender}) => {
         },
     })
 
+    const scroll = useRef()
+
     useEffect(()=>{ 
         const subscribeNewMessage = () => {
             return subscribeToMore({
@@ -28,11 +31,7 @@ const MessagesBox = ({receiver, sender}) => {
                     
                     if ((newMsg?.sender === receiver && newMsg.receiver===sender) || (newMsg?.sender === sender && newMsg.receiver===receiver)){
                     return Object.assign({}, prev, {
-                        get_messages: [newMsg, ...prev.get_messages],
-                        scroll: ()=>{
-                            let box = document.querySelector('.chat-messages')
-                            box.scrollHeight = 0
-                        }
+                        get_messages: [newMsg, ...prev.get_messages]
                     });
                 }
             }});
@@ -51,9 +50,16 @@ const MessagesBox = ({receiver, sender}) => {
     }, [data, sender, receiver, loading, del_msg_notif])
 
     return (
-        <ScrollView style={styles.box}>
-            {data?.get_messages?.map(message => <Text>{message.msg_text}</Text>)}
-        </ScrollView>
+        <View style={{flex:0.84}}>
+            <ScrollView 
+                ref={scroll}
+                contentContainerStyle={styles.box}
+                onContentSizeChange={() => scroll.current.scrollToEnd({animated:false})}    
+            >
+                {data?.get_messages?.map(msg => <Message msg={msg} sender={sender} key={msg.msgID}/>)}
+                
+            </ScrollView>
+        </View>
     );
 };
 
@@ -62,8 +68,10 @@ export default MessagesBox;
 
 const styles = {
     box:{
-        flex:0.84,
-        backgroundColor:"#1f1f1f"
+        backgroundColor:"#1f1f1f",
+        display:"flex",
+        justifyContent:"flex-end",
+        flexDirection:"column-reverse"
     }
 }
 
@@ -72,7 +80,6 @@ const GET_MESSAGES = gql`
         get_messages (sender: $sender, receiver: $receiver, limit: $limit, offset: $offset){
             msgID
             msg_text
-            userID
             type
             url
             time_sent

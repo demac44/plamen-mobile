@@ -1,9 +1,9 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-const SetTime = ({timestamp, fontSize}) => {
+const SetTime = ({timestamp, fontSize, color}) => {
     return (
-        <Text style={{fontSize: fontSize}}>{getTime(timestamp)}</Text>
+        <Text style={{fontSize: fontSize, color: color || "white"}}>{getTime(timestamp)}</Text>
     )
 }
 export default SetTime

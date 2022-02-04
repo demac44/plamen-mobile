@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 import { UserContext } from '../../../App';
 import ChatTopBar from '../../Components/Chat/ChatTopBar';
 import MessagesBox from '../../Components/Chat/Messages/MessagesBox';
@@ -13,11 +13,13 @@ const Chat = () => {
     const chat = JSON.parse(state.routes[2].params.chat)
 
     return (
-        <View style={{flex:1, backgroundColor:"#1b1b1b"}}>
-            <ChatTopBar chat={chat} navigation={navigation}/>
-            <MessagesBox receiver={chat.username} sender={currentUser.username}/>
-            <SendMessage/>
-        </View>
+        <>
+            <KeyboardAvoidingView behavior='height' enabled={false} style={{flex:1,backgroundColor:"#1b1b1b"}}>
+                <ChatTopBar chat={chat} navigation={navigation}/>
+                <MessagesBox receiver={chat.username} sender={currentUser.username}/>
+            </KeyboardAvoidingView>
+            <SendMessage chat={chat} currentUser={currentUser}/>
+        </>
     );
 };
 
