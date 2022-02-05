@@ -50,6 +50,7 @@ const Feed = ({navigation}) => {
             loadMore={loadMore} 
             refetchPosts={refetch} 
             loader={loader}
+            navigation={navigation}
           />}
           <BottomNavbar navigation={navigation}/>
         </KeyboardAvoidingView>}

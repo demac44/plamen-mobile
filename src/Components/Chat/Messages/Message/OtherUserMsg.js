@@ -4,18 +4,18 @@ import SetTime from '../../../General components/SetTime'
 
 const OtherUserMsg = ({storyUrl, msg}) => {
     return (
-        <View style={{width:"100%", display:'flex', alignItems:'flex-start'}}>
+        <View style={styles.wrapper}>
 
             {/* story reply message */}
             {msg?.type==='story-image' && 
-                <View>
-                    <Text>{msg.username+' replied to your story:'}</Text>
+                <View style={styles.storyMsg}>
+                    <Text style={{marginBottom:5}}>{msg.username+' replied to your story:'}</Text>
                     <Image source={{uri: storyUrl}} style={{height:200}}/>
                 </View>
             }           
 
             <View>
-                <View style={{backgroundColor:"white", padding:5, margin:5, borderRadius:10}}>
+                <View style={styles.msg}>
 
                     {/* message type */}
                     {msg.type==='image' && <Image source={{uri: msg.url}}/>}
@@ -31,3 +31,25 @@ const OtherUserMsg = ({storyUrl, msg}) => {
 }
 
 export default OtherUserMsg
+
+const styles = {
+    wrapper:{
+        width:"100%", 
+        display:'flex', 
+        alignItems:'flex-start',
+        backgroundColor:"#1f1f1f"
+    },
+    msg:{
+        backgroundColor:"#e9e9e9", 
+        padding:5, 
+        margin:5, 
+        borderRadius:10, 
+        maxWidth:"80%"
+    }, 
+    storyMsg:{
+        backgroundColor:"#2b2b2b",
+        padding:5,
+        borderRadius:5,
+        margin:5
+    }
+}

@@ -15,7 +15,7 @@ const Comment = ({cmt}) => {
         <View style={styles.comment}>
             <Avatar image={cmt.profile_picture} size={30}/>
 
-            <Text style={styles.textBox}><Text style={{fontWeight:"bold"}}>{cmt.username+' '}</Text>{cmt.comment_text}</Text>
+            <Text style={styles.textBox}><Text style={{fontWeight:"bold", color:"white"}}>{cmt.username+' '}</Text>{cmt.comment_text}</Text>
 
             {cmt.userID===user.userID && <Image source={trashIcon} style={{width:13, marginLeft:5}}/>}
         </View>
@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     textBox:{
         backgroundColor:"#2f2f2f",
         width:win.width - 15 - 13 - 40, // width of avatar and icon and padding
-        padding:10,
+        paddingVertical:7,
+        paddingHorizontal:5,
         borderRadius:5,
         marginLeft:5
     }

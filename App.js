@@ -19,6 +19,8 @@ import Explore from './src/Screens/Explore/Explore';
 import Story from './src/Components/Stories/Story';
 import Chats from './src/Screens/Chat/Chats';
 import Chat from './src/Screens/Chat/Chat';
+import Profile from './src/Screens/Profile/Profile';
+import UsersList from './src/Screens/Lists/UsersList';
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
@@ -55,26 +57,32 @@ const client = new ApolloClient({
           keyArgs: ['postID'],
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
-          }
-        },
+        }},
         get_feed_posts:{
           keyArgs: ['postID'],
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
-          }
-        },
+        }},
         get_saved_posts:{
           keyArgs: ['postID'],
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
-        }
-        },
+        }},
+        get_profile_posts:{
+          keyArgs: ['username'],
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
+        }},
         random_posts:{
           keyArgs: ['postID'],
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
-        }
-        }
+        }},
+        get_messages:{
+          keyArgs: ['sender', "receiver"],
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming];
+        }},
       }
     }
   }
@@ -140,6 +148,8 @@ const App = () => {
                 <Stack.Screen name="Story" component={Story}/>
                 <Stack.Screen name="Chats" component={Chats}/>
                 <Stack.Screen name="Chat" component={Chat}/>
+                <Stack.Screen name="Profile" component={Profile}/>
+                <Stack.Screen name="UsersList" component={UsersList}/>
               </>
               :
               <>

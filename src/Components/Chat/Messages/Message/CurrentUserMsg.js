@@ -10,7 +10,7 @@ const CurrentUserMsg = ({msg, storyUrl}) => {
             {msg?.type==='story-image' && 
                 <View style={styles.storyMsg}>
                     <Text style={{marginBottom:5}}>{msg.receiver+' replied to your story:'}</Text>
-                    <Image source={{uri: storyUrl}} style={{height:200}}/>
+                    <Image source={{uri: storyUrl}} style={{height:200, borderRadius:5}}/>
                 </View>
             }           
 
@@ -36,7 +36,8 @@ const styles = {
     wrapper:{
         width:"100%", 
         display:'flex', 
-        alignItems:'flex-end'
+        alignItems:'flex-end',
+        backgroundColor:"#1f1f1f"
     },
     msg:{
         backgroundColor:"#5f1cca", 
@@ -46,8 +47,8 @@ const styles = {
         maxWidth:"80%"
     }, 
     storyMsg:{
-        backgroundColor:"#2f2f2f",
-        padding:5,
+        backgroundColor:"#2b2b2b",
+        padding:7,
         borderRadius:5,
         margin:5
     }

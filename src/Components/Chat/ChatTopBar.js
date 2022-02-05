@@ -14,8 +14,8 @@ const ChatTopBar = ({chat, navigation}) => {
             <TouchableOpacity style={styles.userBox} onPress={()=>navigation.navigate('Profile', {username: chat.username})}>
                 <Avatar size={40} image={chat.profile_picture}/>
                 <View style={{marginLeft:10}}>
-                    <Text style={{fontSize:18}}>{chat.first_name+' '+chat.last_name}</Text>
-                    <Text style={{fontSize:12}}>Last seen {<SetTime timestamp={chat.last_seen}/>} ago</Text>
+                    <Text style={{fontSize:18, color:"white"}}>{chat.first_name+' '+chat.last_name}</Text>
+                    <Text style={{fontSize:12, color:"white"}}>Last seen {<SetTime timestamp={chat.last_seen}/>} ago</Text>
                 </View>
             </TouchableOpacity>
 
@@ -33,7 +33,8 @@ const styles = {
         alignItems:'center', 
         paddingVertical:5,
         paddingHorizontal:10,
-        flex:0.08
+        flex:0.08,
+        backgroundColor:"#1f1f1f"
     },
     userBox:{
         display:'flex', 

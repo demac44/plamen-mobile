@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, ScrollView, Text, View } from 'react-native';
+import { ScrollView, View, Dimensions, Text, TouchableOpacity } from 'react-native';
 
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
 import Message from './Message/Message';
+
+const win = Dimensions.get('window')
 
 const MessagesBox = ({receiver, sender}) => {
     const [loader, setLoader] = useState(false)
@@ -12,7 +14,7 @@ const MessagesBox = ({receiver, sender}) => {
     const {data, loading, subscribeToMore, fetchMore} = useQuery(GET_MESSAGES, {
         skip: receiver ? false : true,
         variables: {
-            limit:50,
+            limit:30,
             offset:0,
             sender,
             receiver 
@@ -40,7 +42,7 @@ const MessagesBox = ({receiver, sender}) => {
     }, [loading, subscribeToMore])  
 
     useEffect(()=>{
-        data?.get_messages?.length>=50 && setFetchBtn(true)
+        data?.get_messages?.length>=30 && setFetchBtn(true)
         del_msg_notif({
             variables:{
                 receiver: sender,
@@ -48,6 +50,19 @@ const MessagesBox = ({receiver, sender}) => {
             }
         })
     }, [data, sender, receiver, loading, del_msg_notif])
+
+    
+    const handleLoadMore = () => {
+        setFetchBtn(false)
+        fetchMore({
+            variables:{
+                offset: data?.get_messages?.length,
+            },
+        }).then(res=>{
+            if(res.data?.get_messages?.length < 1) setFetchBtn(false)
+            else if (res?.data?.get_messages?.length >=30) setFetchBtn(true)
+        })
+    }
 
     return (
         <View style={{flex:0.84}}>
@@ -57,7 +72,9 @@ const MessagesBox = ({receiver, sender}) => {
                 onContentSizeChange={() => scroll.current.scrollToEnd({animated:false})}    
             >
                 {data?.get_messages?.map(msg => <Message msg={msg} sender={sender} key={msg.msgID}/>)}
-                
+                {fetchBtn && <TouchableOpacity style={styles.loadMore} onPress={handleLoadMore}>
+                    <Text style={{color:"#aaa"}}>Load more</Text>
+                </TouchableOpacity>}
             </ScrollView>
         </View>
     );
@@ -70,8 +87,17 @@ const styles = {
     box:{
         backgroundColor:"#1f1f1f",
         display:"flex",
-        justifyContent:"flex-end",
-        flexDirection:"column-reverse"
+        flexDirection:"column-reverse",
+        justifyContent:"flex-start",
+        paddingBottom:10,
+        minHeight: win.height-120
+    },
+    loadMore:{
+        width:"100%",
+        padding:5,
+        alignItems:"center",
+        backgroundColor:"#2b2b2b",
+        marginBottom:10
     }
 }
 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity,View } from 'react-native';
 import Avatar from '../../General components/Avatar';
 import feedIcon from '../../../Assets/images/icons/feed-icon.png'
 import compassIcon from '../../../Assets/images/icons/compass-icon.png'
@@ -14,25 +14,25 @@ const BottomNavbar = ({navigation}) => {
 
   return (
   <View style={styles.navbar}>
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Feed')}>
+      <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.replace('Feed')}>
         <Image source={feedIcon}/>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Explore')}>
+      <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.replace('Explore')}>
           <Image source={compassIcon}/>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Saved')}>
+      <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.replace('Saved')}>
          <Image source={saveIcon}/>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Communities')}>
+      <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.replace('Communities')}>
         <Image source={cmntyIcon}/>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
 
-      <TouchableWithoutFeedback style={styles.iconBox} onPress={()=>navigation.replace('Profile')}>
+      <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.replace('Profile', {username: user.username})}>
         <Avatar size={35} image={user?.profile_picture}/>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
   </View>);
 };
 

@@ -102,7 +102,7 @@ export default SendMessage;
 
 const styles = {
     postBtn:{
-        backgroundColor:"#0b6bc5",
+        backgroundColor:"gray",
         padding:5,
         width:"15%",
         borderRadius:5,
@@ -121,7 +121,7 @@ const styles = {
         bottom:0,
         right:0,
         left:0,
-        backgroundColor:"#1b1b1b"
+        backgroundColor:"#1f1f1f"
     }
 }
 const SEND_MSG = gql`
