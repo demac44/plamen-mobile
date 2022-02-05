@@ -1,12 +1,15 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Avatar from '../Avatar';
 import FollowButton from '../Buttons/FollowButton';
 
 const UsersListUser = ({data}) => {
+    const navigation = useNavigation()
+
     return (
         <View style={styles.box}>
-            <TouchableOpacity style={styles.pfpAndNames}>
+            <TouchableOpacity style={styles.pfpAndNames} onPress={()=>navigation.replace('Profile', {username: data?.username})}>
                 <Avatar image={data?.profile_picture} size={45}/>
                 <View style={{marginLeft:10}}>
                     <Text>{data?.first_name+' '+data?.last_name}</Text>

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useLayoutEffect, useState } from 'react';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
@@ -13,6 +13,7 @@ const Profile = ({navigation, route}) => {
     const {username} = route.params
     const currentUser = useContext(UserContext)
     const [loader, setLoader] = useState(false)
+    const [myprofile, setMyProfile] = useState(false)
 
     const {loading, data, refetch, fetchMore} = useQuery(FETCH_INFO, {
         variables: {
@@ -32,6 +33,10 @@ const Profile = ({navigation, route}) => {
           }
       }).then(()=>setLoader(false))
     }
+
+    useLayoutEffect(()=>{
+        if(username===currentUser.username) setMyProfile(true)
+    }, [username, currentUser, loading])
     
     // const profileVisit = () => {
     //     if(!loading && !isLoading && !myprofile && data?.get_user?.userID){
@@ -46,20 +51,18 @@ const Profile = ({navigation, route}) => {
     // }
 
     return (
-        <>
-            {loading ? <MainLoader/> :
-            <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
-                <TopNavbar navigation={navigation}/>
-                {!loading && <ProfilePostsContainer 
-                                refetchPosts={refetch} 
-                                loadMore={loadMore} 
-                                posts={data?.get_profile_posts} 
-                                currentUser={currentUser}
-                                user={data?.get_user}
-                            />}
-                <BottomNavbar navigation={navigation}/> 
-            </KeyboardAvoidingView>}
-        </>
+        <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
+            <TopNavbar navigation={navigation}/>
+            {!loading && <ProfilePostsContainer 
+                            refetchPosts={refetch} 
+                            loadMore={loadMore} 
+                            posts={data?.get_profile_posts} 
+                            currentUser={currentUser}
+                            user={data?.get_user}
+                            myprofile={myprofile}
+                        />}
+            <BottomNavbar navigation={navigation}/> 
+        </KeyboardAvoidingView>
     );
 };
 

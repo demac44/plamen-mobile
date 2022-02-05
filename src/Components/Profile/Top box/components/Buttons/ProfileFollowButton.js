@@ -3,9 +3,9 @@ import { Text, TouchableOpacity} from 'react-native';
 
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
-import { UserContext } from '../../../../App';
+import { UserContext } from '../../../../../../App';
 
-const FollowButton = ({userID}) => {
+const ProfileFollowButton = ({userID}) => {
     const currentUser = useContext(UserContext)
     const [isFollowing, setIsFollowing] = useState(false) 
     const [follow] = useMutation(FOLLOW)
@@ -54,25 +54,22 @@ const FollowButton = ({userID}) => {
     return (
         <TouchableOpacity style={styles.btn} onPress={handleFollow}>
             {(loading || isLoading) ? <Text>Loading</Text>:
-            <Text style={{color:"white", fontSize:15}}>{isFollowing ? 'Unfollow' : 'Follow'}</Text>}
+            <Text style={{color:"white", fontSize:20}}>{isFollowing ? 'Unfollow' : 'Follow'}</Text>}
         </TouchableOpacity>
     );
 };
 
-export default FollowButton;
+export default ProfileFollowButton;
 
 const styles = {
     btn:{
-        width:80, 
-        paddingVertical:5, 
+        width:"55%", 
+        paddingVertical:13, 
         backgroundColor:"orange", 
         alignItems:'center', 
-        borderRadius:5
+        borderRadius:5,
     }
-
 }
-
-
 const FOLLOW = gql`
     mutation ($followerID: Int!, $followedID: Int!){
         follow(followerID: $followerID, followedID: $followedID){

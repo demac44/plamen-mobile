@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
-import ActivityBar from './ActivityBar';
-import NamesBox from './NamesBox';
-import ProfileAvatar from './ProfileAvatar';
+import ActivityBar from './components/ActivityBar';
+import NamesBox from './components/NamesBox';
+import ProfileAvatar from './components/ProfileAvatar';
 
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
-import StatsBox from './StatsBox';
+import StatsBox from './components/StatsBox';
+import ProfileFollowButton from './components/Buttons/ProfileFollowButton';
+import SendMessageButton from './components/Buttons/SendMessageButton'
+import ActivityStatus from '../../General components/ActivityStatus';
 
-const ProfileTopBox = ({user, currentUser, refreshing,refreshCB}) => {
+const ProfileTopBox = ({user, currentUser, refreshing,refreshCB, myprofile}) => {
     const {loading, data, refetch} = useQuery(FETCH_INFO, {
         variables: {
             userID: user.userID,
@@ -18,16 +21,23 @@ const ProfileTopBox = ({user, currentUser, refreshing,refreshCB}) => {
 
     if(refreshing) refetch().then(()=>refreshCB(false)).catch(err => console.log(err))
 
-    // useEffect(()=>{
-    //     refetch()
-    // }, [loading, data])
+    useEffect(()=>{
+        refetch()
+    }, [loading, data])
 
     return (
         <View style={styles.box}>
-            <ActivityBar last_seen={user.last_seen}/>
             <ProfileAvatar url={user.profile_picture}/>
             <NamesBox name={user?.first_name+' '+user?.last_name} username={user.username}/>
+            <View style={{marginTop:20, marginLeft:-20, marginBottom:5}}>
+                <ActivityStatus last_seen={user.last_seen}/>
+            </View>
             {!loading && <StatsBox data={data}/>}
+            {!myprofile && 
+            <View style={{flexDirection:'row', marginTop:30, justifyContent:'space-between', alignItems:'flex-start', width:"100%"}}>
+                <SendMessageButton user={user}/>
+                <ProfileFollowButton userID={user.userID}/>
+            </View>}
         </View>
     );
 };
@@ -50,6 +60,9 @@ const styles = {
         position:'absolute', 
         top:0, 
         borderRadius:5
+    },
+    btnsBox:{
+
     }
 }
 

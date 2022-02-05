@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl, View } from 'react-native';
 import PaginationLoader from '../General components/Loaders/PaginationLoader';
 import Post from './Post/Post';
 import ProfileTopBox from '../Profile/Top box/ProfileTopBox'
 
-const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user}) => {
+const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user, myprofile}) => {
     const [refreshing, setRefreshing] = useState(false)
     const [loader, setLoader] = useState(false)
 
@@ -13,8 +13,8 @@ const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user
     }, [setRefreshing])
 
     return (
+        <View style={styles.container}>
             <FlatList
-                style={styles.container}
                 data={posts}
                 initialNumToRender={10}
                 renderItem={({item}) => <Post post={item} key={item.postID} currentUser={currentUser}/>}
@@ -27,7 +27,13 @@ const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user
                 />}
                 ListHeaderComponent={
                     <>
-                        <ProfileTopBox user={user} currentUser={currentUser} refreshing={refreshing} refreshCB={refreshCB}/>
+                        <ProfileTopBox 
+                            user={user} 
+                            currentUser={currentUser} 
+                            refreshing={refreshing} 
+                            refreshCB={refreshCB}
+                            myprofile={myprofile}
+                        />
                     </>
                 }
                 ListFooterComponent={
@@ -36,6 +42,7 @@ const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user
                     </>
                 }
             />
+        </View>
         );
 };  
 

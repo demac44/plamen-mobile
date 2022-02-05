@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, View } from 'react-native';
-import defaultPfp from '../../../Assets/images/pfp.jpg'
+import defaultPfp from '../../../../Assets/images/pfp.jpg'
 
 const ProfileAvatar = ({url}) => {
     return (
@@ -23,6 +23,6 @@ const styles = {
         height:"100%",
         borderRadius:10,
         borderWidth:3,
-        borderColor:"lime"
+        borderColor:"#ffbb00"
     }
 }
