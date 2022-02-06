@@ -17,7 +17,7 @@ export default SendMessageButton;
 
 const styles = {
     btn:{
-        width:"40%", 
+        width:"38%", 
         paddingVertical:10, 
         backgroundColor:"#145985", 
         alignItems:'center', 

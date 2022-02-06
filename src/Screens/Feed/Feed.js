@@ -5,7 +5,7 @@ import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
 import FeedPostsContainer from '../../Components/Posts/FeedPostsContainer';
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PostMenu from '../../Components/General components/Menus/PostMenu';

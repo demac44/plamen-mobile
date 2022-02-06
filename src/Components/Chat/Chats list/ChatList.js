@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import ChatsListChat from './ChatsListChat';
 
 const ChatList = ({chats, navigation}) => {
     return (
-        <View style={{flex:0.84}}>
+        <View style={{flex:1, paddingTop:60}}>
             <ScrollView>
                 {chats.map(chat => <ChatsListChat chat={chat} key={chat.userID} navigation={navigation}/>)}
             </ScrollView>

@@ -7,7 +7,7 @@ const SearchBar = ({navigation}) => {
 
 
     return (
-        <View style={{display:"flex", flexDirection:"row", alignItems:'center', width:"60%"}}>
+        <View style={{display:"flex", flexDirection:"row", alignItems:'center', width:"50%"}}>
             <TextInput 
                 multiline={false} 
                 placeholder='Search...' 
@@ -15,12 +15,12 @@ const SearchBar = ({navigation}) => {
                 style={styles.searchBar}
                 value={query}
                 onChangeText={text=>setQuery(text)}
+                onFocus={()=>navigation.navigate('Search')}
                 />
             <View>
-
-            <TouchableOpacity style={styles.exitBtn} onPress={()=>setQuery('')}>
-                {query.length>0 ? <Image source={xicon}/> : <Text></Text>}
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.exitBtn} onPress={()=>setQuery('')}>
+                    {query.length>0 ? <Image source={xicon}/> : <Text></Text>}
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
         borderLeftWidth:0,
         display:'flex',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     }
 })

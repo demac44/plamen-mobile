@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:"#1b1b1b",
         width:"100%",
-        paddingTop:60
+        paddingTop:60,
+        paddingBottom:60
     },
     title:{
         width:"100%", 

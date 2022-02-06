@@ -58,7 +58,7 @@ const styles = {
         bottom:0, 
         left:0, 
         right:0, 
-        backgroundColor:"rgba(0,0,0,0.5)", 
+        backgroundColor:"rgba(0,0,0,0.1)", 
         zIndex:1000000000000000,
         justifyContent:"flex-end"
     },

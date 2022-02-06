@@ -63,7 +63,7 @@ export default ProfileFollowButton;
 
 const styles = {
     btn:{
-        width:"55%", 
+        width:"60%", 
         paddingVertical:13, 
         backgroundColor:"#5e1b82", 
         alignItems:'center', 

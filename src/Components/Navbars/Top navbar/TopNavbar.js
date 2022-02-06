@@ -11,10 +11,12 @@ const TopNavbar = ({navigation}) => {
         <Image source={logo} style={{height:37,width:25}}/>
         <SearchBar navigation={navigation}/>
         <View style={styles.navBtns}>
-          <Image source={notifBtn}/>          
-          <TouchableOpacity onPress={()=>navigation.navigate('Chats')}>
-            <Image source={inboxBtn}/>
-          </TouchableOpacity>
+            <TouchableOpacity>
+                <Image source={notifBtn}/>          
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate('Chats')}>
+                <Image source={inboxBtn}/>
+            </TouchableOpacity>
         </View>
     </View>);
 };
@@ -29,17 +31,18 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-around',
+        justifyContent:'space-between',
         position:'absolute',
         top:0,
         left:0,
-        zIndex:100000
+        zIndex:100000,
+        paddingHorizontal:10
     },
     navBtns:{
-        width:"20%",
+        width:"25%",
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between',
+        justifyContent:'space-around',
     }
 })

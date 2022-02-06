@@ -21,6 +21,7 @@ import Chats from './src/Screens/Chat/Chats';
 import Chat from './src/Screens/Chat/Chat';
 import Profile from './src/Screens/Profile/Profile';
 import UsersList from './src/Screens/Lists/UsersList';
+import Search from './src/Screens/Search/Search';
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
@@ -150,6 +151,8 @@ const App = () => {
                 <Stack.Screen name="Chat" component={Chat}/>
                 <Stack.Screen name="Profile" component={Profile}/>
                 <Stack.Screen name="UsersList" component={UsersList}/>
+                <Stack.Screen name="Search" component={Search}/>
+
               </>
               :
               <>
