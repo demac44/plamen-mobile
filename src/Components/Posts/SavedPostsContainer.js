@@ -4,8 +4,7 @@ import Post from './Post/Post';
 import { UserContext } from '../../../App';
 import PaginationLoader from '../General components/Loaders/PaginationLoader';
 
-const SavedPostsContainer = ({posts, loadMore, refetchPosts, loader}) => {
-    const user = useContext(UserContext)
+const SavedPostsContainer = ({posts, loadMore, refetchPosts, loader, postMenuCB, currentUser}) => {
     const [refreshing, setRefreshing] = useState(false)
 
     return (
@@ -13,7 +12,7 @@ const SavedPostsContainer = ({posts, loadMore, refetchPosts, loader}) => {
             <FlatList
                 data={posts}
                 initialNumToRender={10}
-                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={user}/>}
+                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={currentUser} postMenuCB={postMenuCB}/>}
                 onEndReached={()=>loadMore()}
                 refreshControl={                    
                 <RefreshControl
@@ -39,9 +38,10 @@ export default SavedPostsContainer;
 
 const styles = StyleSheet.create({
     container:{
-        flex:0.84,
+        flex:1,
         backgroundColor:"#1b1b1b",
-        width:"100%"
+        width:"100%",
+        paddingTop:60
     },
     title:{
         width:"100%", 

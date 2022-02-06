@@ -3,10 +3,10 @@ import { FlatList, RefreshControl, View } from 'react-native';
 import PaginationLoader from '../General components/Loaders/PaginationLoader';
 import Post from './Post/Post';
 import ProfileTopBox from '../Profile/Top box/ProfileTopBox'
+import CreatePost from './Create post/CreatePost';
 
-const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user, myprofile}) => {
+const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user, myprofile, postMenuCB, loader}) => {
     const [refreshing, setRefreshing] = useState(false)
-    const [loader, setLoader] = useState(false)
 
     const refreshCB = useCallback(val => {
         setRefreshing(val)
@@ -17,7 +17,7 @@ const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user
             <FlatList
                 data={posts}
                 initialNumToRender={10}
-                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={currentUser}/>}
+                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={currentUser} postMenuCB={postMenuCB}/>}
                 onEndReached={()=>loadMore()}
                 refreshControl={                    
                 <RefreshControl
@@ -34,6 +34,7 @@ const ProfilePostsContainer = ({posts, refetchPosts, loadMore, currentUser, user
                             refreshCB={refreshCB}
                             myprofile={myprofile}
                         />
+                        {myprofile && <CreatePost/>}
                     </>
                 }
                 ListFooterComponent={
@@ -50,8 +51,10 @@ export default ProfilePostsContainer;
 
 const styles = {
     container:{
-        flex:0.84,
+        flex:1,
         backgroundColor:"#1b1b1b",
-        width:"100%"
+        width:"100%",
+        paddingTop:60,
+        paddingBottom:60
     }
 }

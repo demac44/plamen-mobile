@@ -40,7 +40,7 @@ const styles = {
         backgroundColor:"#1f1f1f"
     },
     msg:{
-        backgroundColor:"#5f1cca", 
+        backgroundColor:"#5e1b82", 
         padding:5, 
         margin:5, 
         borderRadius:10, 

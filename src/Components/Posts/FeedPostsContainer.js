@@ -6,8 +6,7 @@ import CreatePost from './Create post/CreatePost'
 import StoriesContainer from '../Stories/StoriesContainer';
 import PaginationLoader from '../General components/Loaders/PaginationLoader';
 
-const FeedPostsContainer = ({posts, stories, loadMore, refetchPosts, loader}) => {
-    const user = useContext(UserContext)
+const FeedPostsContainer = ({posts, stories, loadMore, refetchPosts, loader, postMenuCB, currentUser}) => {
     const [refreshing, setRefreshing] = useState(false)
 
     return (
@@ -15,7 +14,7 @@ const FeedPostsContainer = ({posts, stories, loadMore, refetchPosts, loader}) =>
             <FlatList
                 data={posts}
                 initialNumToRender={10}
-                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={user}/>}
+                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={currentUser} postMenuCB={postMenuCB}/>}
                 onEndReached={()=>loadMore()}
                 refreshControl={                    
                 <RefreshControl
@@ -26,7 +25,7 @@ const FeedPostsContainer = ({posts, stories, loadMore, refetchPosts, loader}) =>
                 ListHeaderComponent={
                 <>
                     <StoriesContainer stories={stories}/>
-                    <CreatePost currentUser={user} refetchPosts={refetchPosts}/>
+                    <CreatePost currentUser={currentUser} refetchPosts={refetchPosts}/>
                 </>}
                 ListFooterComponent={
                     <>
@@ -42,8 +41,9 @@ export default FeedPostsContainer;
 
 const styles = StyleSheet.create({
     container:{
-        flex:0.84,
+        flex:1,
         backgroundColor:"#1b1b1b",
-        width:"100%"
+        width:"100%",
+        paddingTop:60
     }
 })

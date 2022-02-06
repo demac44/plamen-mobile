@@ -1,19 +1,21 @@
 import React, { useCallback, useContext, useLayoutEffect, useState } from 'react';
-import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
-import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
 import TopNavbar from '../../Components/Navbars/Top navbar/TopNavbar';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
 import { UserContext } from '../../../App';
 import ProfilePostsContainer from '../../Components/Posts/ProfilePostsContainer';
+import { View, KeyboardAvoidingView } from 'react-native';
+import PostMenu from '../../Components/General components/Menus/PostMenu';
 
 const Profile = ({navigation, route}) => {
-    // const [set_last_seen] = useMutation(SET_LAST_SEEN)
-    const {username} = route.params
     const currentUser = useContext(UserContext)
+    const {username} = route.params
     const [loader, setLoader] = useState(false)
     const [myprofile, setMyProfile] = useState(false)
+
+    const [postMenu, setPostMenu] = useState(false)
+    const [postMenuPayload, setPostMenuPayload] = useState({postID: null, username: null})
 
     const {loading, data, refetch, fetchMore} = useQuery(FETCH_INFO, {
         variables: {
@@ -38,31 +40,35 @@ const Profile = ({navigation, route}) => {
         if(username===currentUser.username) setMyProfile(true)
     }, [username, currentUser, loading])
     
-    // const profileVisit = () => {
-    //     if(!loading && !isLoading && !myprofile && data?.get_user?.userID){
-    //         profile_visit({
-    //             variables:{
-    //                 visitorId: uid, 
-    //                 visitedId: data?.get_user?.userID}
-    //             })
-    //             return
-    //     }
-    //     return
-    // }
+    const postMenuCB = useCallback((value, payload) => {
+        setPostMenu(value)
+        setPostMenuPayload(payload)
+    }, [setPostMenu])
 
     return (
-        <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
-            <TopNavbar navigation={navigation}/>
-            {!loading && <ProfilePostsContainer 
-                            refetchPosts={refetch} 
-                            loadMore={loadMore} 
-                            posts={data?.get_profile_posts} 
-                            currentUser={currentUser}
-                            user={data?.get_user}
-                            myprofile={myprofile}
-                        />}
-            <BottomNavbar navigation={navigation}/> 
-        </KeyboardAvoidingView>
+        <>
+            <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
+                <TopNavbar navigation={navigation}/>
+                {loading ? <View style={{flex:1}}></View> : <ProfilePostsContainer 
+                    refetchPosts={refetch} 
+                    loadMore={loadMore} 
+                    posts={data?.get_profile_posts} 
+                    currentUser={currentUser}
+                    user={data?.get_user}
+                    myprofile={myprofile}
+                    postMenuCB={postMenuCB}
+                    loader={loader}
+                    />}
+                <BottomNavbar navigation={navigation}/> 
+            </KeyboardAvoidingView>
+            {postMenu && <PostMenu
+                             postMenuCB={postMenuCB} 
+                             currentUser={currentUser} 
+                             payload={postMenuPayload}
+                             refetch={refetch}
+                             navigation={navigation}
+                            />}
+        </>
     );
 };
 
@@ -115,3 +121,16 @@ const PROFILE_VISIT = gql`
 
 // `
 
+    // const profileVisit = () => {
+    //     if(!loading && !isLoading && !myprofile && data?.get_user?.userID){
+    //         profile_visit({
+    //             variables:{
+    //                 visitorId: uid, 
+    //                 visitedId: data?.get_user?.userID}
+    //             })
+    //             return
+    //     }
+    //     return
+    // }
+
+    // const [set_last_seen] = useMutation(SET_LAST_SEEN)

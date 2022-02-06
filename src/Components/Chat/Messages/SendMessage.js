@@ -91,7 +91,7 @@ const SendMessage = ({chat, loaderCallback, currentUser}) => {
                 value={msgText}
             />
 
-            <TouchableOpacity style={styles.postBtn} onPress={sendMessage}>
+            <TouchableOpacity style={styles.postBtn} onPress={()=>sendMessage()}>
                 <Text style={{color:"white"}}>SEND</Text>
             </TouchableOpacity>
         </View>
@@ -102,7 +102,7 @@ export default SendMessage;
 
 const styles = {
     postBtn:{
-        backgroundColor:"gray",
+        backgroundColor:"#5b5b5b",
         padding:5,
         width:"15%",
         borderRadius:5,

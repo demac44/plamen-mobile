@@ -9,7 +9,7 @@ import { useQuery } from '@apollo/client';
 import PostComments from './Comments/PostComments';
 import PostBottomBar from './Bottom bar/PostBottomBar';
 
-const Post = ({post, currentUser}) => {
+const Post = ({post, currentUser, postMenuCB}) => {
     const [loadMoreBtn, setLoadMoreBtn] = useState(true)
     const {data, loading, fetchMore, refetch} = useQuery(GET_COMMENTS, {
         variables:{
@@ -41,6 +41,7 @@ const Post = ({post, currentUser}) => {
                     pfp={post.profile_picture}
                     timestamp={post.date_posted}
                     currentUser={currentUser}
+                    postMenuCB={postMenuCB}
                 />
                 {post.type==='image' && <PostMedia image={post.url} width={post.width} height={post.height}/>}
                 {(post.post_text!==null && post.post_text.length>0) && <PostTextBar text={post.post_text}/>}

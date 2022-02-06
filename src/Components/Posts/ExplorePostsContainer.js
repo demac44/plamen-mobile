@@ -1,13 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import Post from './Post/Post';
-import { UserContext } from '../../../App';
-import CreatePost from './Create post/CreatePost'
-import StoriesContainer from '../Stories/StoriesContainer';
 import PaginationLoader from '../General components/Loaders/PaginationLoader';
 
-const ExplorePostsContainer = ({posts, loadMore, refetchPosts, loader}) => {
-    const user = useContext(UserContext)
+const ExplorePostsContainer = ({posts, loadMore, refetchPosts, loader,postMenuCB, currentUser}) => {
     const [refreshing, setRefreshing] = useState(false)
 
     return (
@@ -15,7 +11,7 @@ const ExplorePostsContainer = ({posts, loadMore, refetchPosts, loader}) => {
             <FlatList
                 data={posts}
                 initialNumToRender={10}
-                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={user}/>}
+                renderItem={({item}) => <Post post={item} key={item.postID} currentUser={currentUser} postMenuCB={postMenuCB}/>}
                 onEndReached={()=>loadMore()}
                 refreshControl={                    
                 <RefreshControl
@@ -41,9 +37,10 @@ export default ExplorePostsContainer;
 
 const styles = StyleSheet.create({
     container:{
-        flex:0.84,
+        flex:1,
         backgroundColor:"#1b1b1b",
-        width:"100%"
+        width:"100%",
+        paddingTop:60
     },
     title:{
         width:"100%", 

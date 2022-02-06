@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, View, Dimensions, Text, TouchableOpacity } from 'react-native';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { ScrollView, View, Dimensions, Text, TouchableOpacity} from 'react-native';
 
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
@@ -23,7 +23,7 @@ const MessagesBox = ({receiver, sender}) => {
 
     const scroll = useRef()
 
-    useEffect(()=>{ 
+    useLayoutEffect(()=>{ 
         const subscribeNewMessage = () => {
             return subscribeToMore({
                 document: NEW_MESSAGE,
@@ -38,18 +38,18 @@ const MessagesBox = ({receiver, sender}) => {
                 }
             }});
         }
-        return subscribeNewMessage()
-    }, [loading, subscribeToMore])  
-
-    useEffect(()=>{
-        data?.get_messages?.length>=30 && setFetchBtn(true)
-        del_msg_notif({
-            variables:{
-                receiver: sender,
-                sender: receiver
-            }
-        })
-    }, [data, sender, receiver, loading, del_msg_notif])
+        subscribeNewMessage()
+    }, [])  
+    
+    // useEffect(()=>{
+    //     data?.get_messages?.length>=30 && setFetchBtn(true)
+    //     del_msg_notif({
+    //         variables:{
+    //             receiver: sender,
+    //             sender: receiver
+    //         }
+    //     })
+    // }, [data, sender, receiver, loading, del_msg_notif])
 
     
     const handleLoadMore = () => {
@@ -71,8 +71,8 @@ const MessagesBox = ({receiver, sender}) => {
                 contentContainerStyle={styles.box}
                 onContentSizeChange={() => scroll.current.scrollToEnd({animated:false})}    
             >
-                {data?.get_messages?.map(msg => <Message msg={msg} sender={sender} key={msg.msgID}/>)}
-                {fetchBtn && <TouchableOpacity style={styles.loadMore} onPress={handleLoadMore}>
+                {!loading && data?.get_messages?.map(msg => <Message msg={msg} sender={sender} key={msg.msgID}/>)}
+                {fetchBtn && <TouchableOpacity style={styles.loadMore} onPress={()=>handleLoadMore()}>
                     <Text style={{color:"#aaa"}}>Load more</Text>
                 </TouchableOpacity>}
             </ScrollView>

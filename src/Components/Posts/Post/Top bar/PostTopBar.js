@@ -1,9 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import Avatar from '../../../General components/Avatar';
 import SetTime from '../../../General components/SetTime';
 import SavePost from './components/SavePost';
+import menuIcon from '../../../../Assets/images/icons/menu-icon.png'
 
 
 const PostTopBar = (props) => {
@@ -20,10 +21,16 @@ const PostTopBar = (props) => {
                     </View>
                 </View>
             </TouchableOpacity>
-            <SavePost
-                currentUserID={props.currentUser.userID}
-                postID={props.postID}
-            />
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <SavePost
+                    currentUserID={props.currentUser.userID}
+                    postID={props.postID}
+                />
+
+                <TouchableOpacity onPress={()=>props.postMenuCB(true, {postID: props.postID, username: props.username})} style={{marginLeft:15}}>
+                    <Image source={menuIcon}/>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -36,7 +43,7 @@ const styles = StyleSheet.create({
         display:'flex',
         padding:5,
         paddingLeft:10,
-        paddingRight:15,
+        paddingRight:5,
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between'

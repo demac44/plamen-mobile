@@ -65,7 +65,7 @@ const styles = {
     btn:{
         width:"55%", 
         paddingVertical:13, 
-        backgroundColor:"orange", 
+        backgroundColor:"#5e1b82", 
         alignItems:'center', 
         borderRadius:5,
     }

@@ -14,15 +14,15 @@ export default ProfileAvatar;
 
 const styles = {
     box:{
-        width:150,
-        height:150,
+        width:170,
+        height:170,
         borderRadius:10,
     },
     image:{
         width:"100%",
         height:"100%",
         borderRadius:10,
-        borderWidth:3,
-        borderColor:"#ffbb00"
+        borderWidth:5,
+        borderColor:"#5e1b82"
     }
 }

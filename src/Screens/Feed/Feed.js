@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { KeyboardAvoidingView} from 'react-native';
 import { UserContext } from '../../../App';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
@@ -8,10 +8,13 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PostMenu from '../../Components/General components/Menus/PostMenu';
 
 const Feed = ({navigation}) => {
-  const user = useContext(UserContext)
+  const currentUser = useContext(UserContext)
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
+  const [postMenu, setPostMenu] = useState(false)
+  const [postMenuPayload, setPostMenuPayload] = useState({postID: null, username: null})
   const [loader, setLoader] = useState(false)
   const {data, loading, fetchMore, refetch, error} = useQuery(FEED_POSTS, {
     variables:{
@@ -39,6 +42,12 @@ const Feed = ({navigation}) => {
 
   if(error) console.log(error);
 
+      
+  const postMenuCB = useCallback((value, payload) => {
+    setPostMenu(value)
+    setPostMenuPayload(payload)
+}, [setPostMenu])
+
   return (
     <>
     {loading ? <MainLoader/> :
@@ -51,9 +60,18 @@ const Feed = ({navigation}) => {
             refetchPosts={refetch} 
             loader={loader}
             navigation={navigation}
+            postMenuCB={postMenuCB} 
+            currentUser={currentUser}
           />}
           <BottomNavbar navigation={navigation}/>
         </KeyboardAvoidingView>}
+        {postMenu && <PostMenu
+                             postMenuCB={postMenuCB} 
+                             currentUser={currentUser} 
+                             payload={postMenuPayload}
+                             refetch={refetch}
+                             navigation={navigation}
+                            />}
     </>
   );
 }

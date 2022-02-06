@@ -78,11 +78,11 @@ const client = new ApolloClient({
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
         }},
-        get_messages:{
-          keyArgs: ['sender', "receiver"],
-          merge(existing = [], incoming) {
-            return [...existing, ...incoming];
-        }},
+      //   get_messages:{
+      //     keyArgs: ['sender', "receiver", "msgID"],
+      //     merge(existing = [], incoming) {
+      //       return [...existing, ...incoming];
+      //   }},
       }
     }
   }

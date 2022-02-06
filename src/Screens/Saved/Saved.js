@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import MainLoader from '../../Components/General components/Loaders/MainLoader';
 import BottomNavbar from '../../Components/Navbars/Bottom navbar/BottomNavbar';
@@ -7,10 +7,13 @@ import SavedPostsContainer from '../../Components/Posts/SavedPostsContainer'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
 import { UserContext } from '../../../App';
+import PostMenu from '../../Components/General components/Menus/PostMenu';
 
 const Saved = ({navigation}) => {
     const currentUser = useContext(UserContext)
     // const [set_last_seen] = useMutation(SET_LAST_SEEN)
+    const [postMenu, setPostMenu] = useState(false)
+    const [postMenuPayload, setPostMenuPayload] = useState({postID: null, username: null})
     const [loader, setLoader] = useState(false)
     const {loading, data, fetchMore, refetch} = useQuery(GET_SAVED, { 
         variables: {
@@ -28,16 +31,37 @@ const Saved = ({navigation}) => {
               offset:data?.get_saved_posts?.length 
             }
           }).then(()=>setLoader(false))
-      }
+    
+        }
+     const postMenuCB = useCallback((value, payload) => {
+        setPostMenu(value)
+        setPostMenuPayload(payload)
+    }, [setPostMenu])
 
     return (
         <>
             {loading ? <MainLoader/> :
-            <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
-                <TopNavbar navigation={navigation}/>
-                <SavedPostsContainer posts={data?.get_saved_posts} refetchPosts={refetch} loadMore={loadMore} loader={loader}/>
-                <BottomNavbar navigation={navigation}/>
-            </KeyboardAvoidingView>}
+                <>
+                <KeyboardAvoidingView enabled={false} behavior='height' style={{flex:1, backgroundColor:"#1b1b1b"}}>
+                    <TopNavbar navigation={navigation}/>
+                    <SavedPostsContainer 
+                        posts={data?.get_saved_posts} 
+                        refetchPosts={refetch} 
+                        loadMore={loadMore} 
+                        loader={loader} 
+                        postMenuCB={postMenuCB} 
+                        currentUser={currentUser}
+                    />
+                    <BottomNavbar navigation={navigation}/>
+                </KeyboardAvoidingView>
+                {postMenu && <PostMenu
+                                postMenuCB={postMenuCB} 
+                                currentUser={currentUser} 
+                                payload={postMenuPayload}
+                                refetch={refetch}
+                                navigation={navigation}
+                                />}
+                </>}
         </>
     );
 };

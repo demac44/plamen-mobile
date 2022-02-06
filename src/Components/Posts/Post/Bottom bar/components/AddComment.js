@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
         width: win.width - 40 - 60
     },
     postBtn:{
-        backgroundColor:"#104b41",
+        backgroundColor:"#5e1b82",
         padding:5,
         width:40,
         borderRadius:5,
-        marginHorizontal:10
+        marginLeft:15
     }
 })
 

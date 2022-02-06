@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
-import ActivityBar from './components/ActivityBar';
+import { View } from 'react-native';
 import NamesBox from './components/NamesBox';
 import ProfileAvatar from './components/ProfileAvatar';
 
@@ -10,6 +9,7 @@ import StatsBox from './components/StatsBox';
 import ProfileFollowButton from './components/Buttons/ProfileFollowButton';
 import SendMessageButton from './components/Buttons/SendMessageButton'
 import ActivityStatus from '../../General components/ActivityStatus';
+import ButtonsBox from './components/ButtonsBox';
 
 const ProfileTopBox = ({user, currentUser, refreshing,refreshCB, myprofile}) => {
     const {loading, data, refetch} = useQuery(FETCH_INFO, {
@@ -27,12 +27,13 @@ const ProfileTopBox = ({user, currentUser, refreshing,refreshCB, myprofile}) => 
 
     return (
         <View style={styles.box}>
+            {myprofile && <ButtonsBox/>}
             <ProfileAvatar url={user.profile_picture}/>
             <NamesBox name={user?.first_name+' '+user?.last_name} username={user.username}/>
             <View style={{marginTop:20, marginLeft:-20, marginBottom:5}}>
                 <ActivityStatus last_seen={user.last_seen}/>
             </View>
-            {!loading && <StatsBox data={data}/>}
+            <StatsBox data={data}/>
             {!myprofile && 
             <View style={{flexDirection:'row', marginTop:30, justifyContent:'space-between', alignItems:'flex-start', width:"100%"}}>
                 <SendMessageButton user={user}/>
@@ -52,7 +53,8 @@ const styles = {
         alignItems:'center', 
         padding:10,
         paddingTop:20,
-        marginTop:10
+        marginTop:10,
+        marginBottom:25
     },
     activityBar:{
         width:"100%", 
