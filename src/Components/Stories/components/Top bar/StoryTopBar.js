@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Avatar from '../../../General components/Avatar';
-import xicon from '../../../../Assets/images/icons/x-icon.png'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const StoryTopBar = ({pfp, username, navigation}) => {
 
@@ -12,7 +12,7 @@ const StoryTopBar = ({pfp, username, navigation}) => {
                 <Text style={{marginLeft:10, fontSize:16}}>{username}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>navigation.navigate('Feed')}>
-                <Image source={xicon}/>
+                <FontAwesomeIcon icon='times' size={26} color='white'/>
             </TouchableOpacity>
         </View>
     );

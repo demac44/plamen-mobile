@@ -4,6 +4,7 @@ import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import gql from 'graphql-tag'
 import {useMutation} from '@apollo/client'
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SendMessage = ({chat, loaderCallback, currentUser}) => {
     const [send_msg] = useMutation(SEND_MSG)
@@ -79,8 +80,8 @@ const SendMessage = ({chat, loaderCallback, currentUser}) => {
 
     return (
         <View style={styles.box}>
-            <TouchableOpacity style={{width:"10%"}}>
-                <Text>FILE</Text>
+            <TouchableOpacity style={{width:"10%", marginLeft:5}}>
+                <FontAwesomeIcon icon='images' size={30} color='white'/>
             </TouchableOpacity>
 
             <TextInput

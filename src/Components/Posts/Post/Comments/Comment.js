@@ -3,6 +3,7 @@ import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import Avatar from '../../../General components/Avatar';
 import trashIcon from '../../../../Assets/images/icons/trash-icon-min.png'
 import { UserContext } from '../../../../../App';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const win = Dimensions.get('window')
 
@@ -17,7 +18,7 @@ const Comment = ({cmt}) => {
 
             <Text style={styles.textBox}><Text style={{fontWeight:"bold", color:"white"}}>{cmt.username+' '}</Text>{cmt.comment_text}</Text>
 
-            {cmt.userID===user.userID && <Image source={trashIcon} style={{width:13, marginLeft:5}}/>}
+            {cmt.userID===user.userID && <FontAwesomeIcon icon='trash-alt' size={14} color='white' style={{marginLeft:5, marginTop:3}}/>}
         </View>
     );
 };

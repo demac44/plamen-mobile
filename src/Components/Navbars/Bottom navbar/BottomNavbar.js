@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, TouchableOpacity,View } from 'react-native';
+import { TouchableOpacity,View } from 'react-native';
 import Avatar from '../../General components/Avatar';
-import feedIcon from '../../../Assets/images/icons/feed-icon.png'
-import compassIcon from '../../../Assets/images/icons/compass-icon.png'
-import saveIcon from '../../../Assets/images/icons/save-icon.png'
-import cmntyIcon from '../../../Assets/images/icons/cmnty-icon.png'
 import { UserContext } from '../../../../App';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 
 const BottomNavbar = ({navigation}) => {
@@ -15,19 +12,19 @@ const BottomNavbar = ({navigation}) => {
   return (
   <View style={styles.navbar}>
       <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.navigate('Feed')}>
-        <Image source={feedIcon}/>
+        <FontAwesomeIcon icon='newspaper' size={20} color='green'/>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.navigate('Explore')}>
-          <Image source={compassIcon}/>
+        <FontAwesomeIcon icon='compass' size={20} color='darkred'/>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.navigate('Saved')}>
-         <Image source={saveIcon}/>
+        <FontAwesomeIcon icon='bookmark' size={20} color='#ffbb00'/>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.navigate('Communities')}>
-        <Image source={cmntyIcon}/>
+        <FontAwesomeIcon icon='users' size={20} color='teal'/>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.iconBox} onPress={()=>navigation.navigate('Profile', {username: user.username})}>

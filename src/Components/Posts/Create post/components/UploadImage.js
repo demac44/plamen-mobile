@@ -1,9 +1,8 @@
 import React from 'react'
-import { Image, TouchableHighlight, View } from 'react-native';
-import DocumentPicker from 'react-native-document-picker'
-import imagesIcon from '../../../../Assets/images/icons/images-icon.png'
+import { TouchableHighlight, View } from 'react-native';
 
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const UploadImage = ({imageCB, videoCB, previewCB, sizeErrorCB}) => {
 
@@ -52,7 +51,7 @@ const UploadImage = ({imageCB, videoCB, previewCB, sizeErrorCB}) => {
     return (
         <View>
             <TouchableHighlight onPress={selectFile} style={{marginLeft:5}}>
-                <Image source={imagesIcon}/>
+                <FontAwesomeIcon icon='images' color='white' size={22}/>
             </TouchableHighlight>    
         </View>
     )   

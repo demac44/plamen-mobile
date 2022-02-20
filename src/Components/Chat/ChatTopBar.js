@@ -1,14 +1,14 @@
 import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import backIcon from '../../Assets/images/icons/back-icon.png'
+import { Text, TouchableOpacity, View } from 'react-native';
 import SetTime from '../General components/SetTime';
 import Avatar from '../General components/Avatar'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const ChatTopBar = ({chat, navigation}) => {
     return (
         <View style={styles.bar}>
             <TouchableOpacity onPress={()=>navigation.navigate('Chats')}>
-                <Image source={backIcon}/>
+                <FontAwesomeIcon icon='arrow-left' size={22} color='white'/>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.userBox} onPress={()=>navigation.navigate('Profile', {username: chat.username})}>
@@ -40,6 +40,6 @@ const styles = {
         display:'flex', 
         flexDirection:'row', 
         alignItems:'center',
-        marginLeft:20
+        marginLeft:15
     }
 }

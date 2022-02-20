@@ -16,21 +16,30 @@ import axios from 'axios';
 import MainLoader from './src/Components/General components/Loaders/MainLoader';
 import Saved from './src/Screens/Saved/Saved';
 import Explore from './src/Screens/Explore/Explore';
-import Story from './src/Components/Stories/Story';
 import Chats from './src/Screens/Chat/Chats';
 import Chat from './src/Screens/Chat/Chat';
 import Profile from './src/Screens/Profile/Profile';
 import UsersList from './src/Screens/Lists/UsersList';
 import Search from './src/Screens/Search/Search';
+import Story from './src/Screens/Stories/Story'
+import AddStory from './src/Screens/Stories/AddStory';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCameraAlt, faCog, faNewspaper, faCompass, faBookmark, faUsers, faInbox, faSortDown, faSearch,
+        faLayerGroup, faImages, faVideo, faPlus, faTimes, faEllipsisVertical, faArrowLeft, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+
+library.add(faCameraAlt, faCog, faNewspaper, faCompass, faBookmark, faUsers, faInbox, faSortDown, faSearch,
+            faLayerGroup, faImages, faVideo, faPlus, faTimes, faEllipsisVertical, faArrowLeft, faTrashAlt)
+
 
 const httpLink = new HttpLink({
   // uri:'https://plamen-main.herokuapp.com/graphql'
-  uri:'http://192.168.1.56:8000/graphql'
+  uri:'http://192.168.1.253:8000/graphql'
 })
 
 const wsLink = new WebSocketLink({
   // uri:`wss://plamen-main.herokuapp.com/graphql`,
-  uri:`ws://192.168.1.56:8000/graphql`,
+  uri:`ws://192.168.1.253:8000/graphql`,
   options: {
     reconnect: true,
   }
@@ -107,7 +116,7 @@ const App = () => {
       await AsyncStorage.getItem('ACCESS_TOKEN').then(res => {
         axios({
           method:'post',
-          url: "http://192.168.1.56:8000/api/verify_token",
+          url: "http://192.168.1.253:8000/api/verify_token",
           data:{
             token: res
           }
@@ -147,6 +156,7 @@ const App = () => {
                 <Stack.Screen name="Saved" component={Saved}/>
                 <Stack.Screen name="Explore" component={Explore}/>
                 <Stack.Screen name="Story" component={Story}/>
+                <Stack.Screen name="AddStory" component={AddStory}/>
                 <Stack.Screen name="Chats" component={Chats}/>
                 <Stack.Screen name="Chat" component={Chat}/>
                 <Stack.Screen name="Profile" component={Profile}/>

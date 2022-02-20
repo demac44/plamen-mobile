@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TouchableOpacity} from 'react-native';
-import savedIcon from '../../../../../Assets/images/icons/save-icon.png'
-import notSavedIcon from '../../../../../Assets/images/icons/notSaved-icon.png'
+import {TouchableOpacity} from 'react-native';
 
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SavePost = ({currentUserID, postID}) => {
     const [saved, setSaved] = useState(false)
@@ -43,7 +42,7 @@ const SavePost = ({currentUserID, postID}) => {
 
   return (
     <TouchableOpacity onPress={handleSave}>
-        <Image source={ifSaved.loading ? notSavedIcon : (saved ? savedIcon : notSavedIcon)}/>
+        <FontAwesomeIcon icon='bookmark' size={24} color={ifSaved.loading ? 'white' : (saved ? '#ffbb00' : 'white')}/>
     </TouchableOpacity> 
   );
 };

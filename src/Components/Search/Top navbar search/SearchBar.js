@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import xicon from '../../../Assets/images/icons/x-icon.png'
-import backIcon from '../../../Assets/images/icons/back-icon.png'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const SearchBar = ({navigation, queryCB}) => {
     const [query, setQuery] = useState('')
@@ -9,7 +8,7 @@ const SearchBar = ({navigation, queryCB}) => {
     return (   
         <View style={styles.container}>
             <TouchableOpacity style={{width:"10%"}} onPress={()=>navigation.goBack()}>
-                <Image source={backIcon}/>
+                <FontAwesomeIcon icon='arrow-left' size={22} color='white'/>
             </TouchableOpacity>
             <View style={{display:"flex", flexDirection:"row", alignItems:'center', width:"90%"}}>
                 <TextInput 
@@ -22,7 +21,7 @@ const SearchBar = ({navigation, queryCB}) => {
                     />
                 <View>
                     <TouchableOpacity style={styles.exitBtn} onPress={()=>{setQuery('');queryCB('')}}>
-                        {query.length>0 ? <Image source={xicon}/> : <Text></Text>}
+                        {query.length>0 ? <FontAwesomeIcon icon='times' size={22} color='white'/> : <Text></Text>}
                     </TouchableOpacity>
                 </View>
             </View>

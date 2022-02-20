@@ -1,21 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import SearchBar from './Search bar/SearchBar';
-import inboxBtn from '../../../Assets/images/icons/inbox-icon.png'
-import notifBtn from '../../../Assets/images/icons/notif-icon.png'
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import logo from '../../../Assets/images/logo-min.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+
 
 const TopNavbar = ({navigation}) => {
     return (
     <View style={styles.navbar}>
         <Image source={logo} style={{height:37,width:25}}/>
-        <SearchBar navigation={navigation}/>
+        {/* <SearchBar navigation={navigation}/> */}
         <View style={styles.navBtns}>
-            <TouchableOpacity>
-                <Image source={notifBtn}/>          
+            <TouchableOpacity onPress={()=>navigation.push('Search')}>
+                <FontAwesomeIcon icon='search' color='white' size={20}/>          
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.push('Notifications')}>
+                <FontAwesomeIcon icon='sort-down' color='white' size={20} style={{marginTop:-10}}/>          
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>navigation.navigate('Chats')}>
-                <Image source={inboxBtn}/>
+                <FontAwesomeIcon icon='inbox' color='white' size={20}/>          
             </TouchableOpacity>
         </View>
     </View>);
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:10
     },
     navBtns:{
-        width:"25%",
+        width:"40%",
         display:'flex',
         flexDirection:'row',
         alignItems:'center',

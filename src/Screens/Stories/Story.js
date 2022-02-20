@@ -5,9 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import StoryTopBar from './components/Top bar/StoryTopBar';
-import StoryBottomBar from './components/Bottom bar/StoryBottomBar';
-import StoryMedia from './components/Media/StoryMedia';
+import StoryTopBar from '../../Components/Stories/components/Top bar/StoryTopBar';
+import StoryBottomBar from '../../Components/Stories/components/Bottom bar/StoryBottomBar';
+import StoryMedia from '../../Components/Stories/components/Media/StoryMedia';
 
 const Story = () => {
     const navigation = useNavigation()

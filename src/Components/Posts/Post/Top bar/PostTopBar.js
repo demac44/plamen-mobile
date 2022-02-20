@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import Avatar from '../../../General components/Avatar';
 import SetTime from '../../../General components/SetTime';
 import SavePost from './components/SavePost';
-import menuIcon from '../../../../Assets/images/icons/menu-icon.png'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 
 const PostTopBar = (props) => {
@@ -28,7 +28,7 @@ const PostTopBar = (props) => {
                 />
 
                 <TouchableOpacity onPress={()=>props.postMenuCB(true, {postID: props.postID, username: props.username})} style={{marginLeft:15}}>
-                    <Image source={menuIcon}/>
+                    <FontAwesomeIcon icon='ellipsis-vertical' size={26} color='white'/>
                 </TouchableOpacity>
             </View>
         </View>
