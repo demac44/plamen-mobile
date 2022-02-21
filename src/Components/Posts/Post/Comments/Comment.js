@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import Avatar from '../../../General components/Avatar';
-import trashIcon from '../../../../Assets/images/icons/trash-icon-min.png'
 import { UserContext } from '../../../../../App';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const win = Dimensions.get('window')
-
-
 
 const Comment = ({cmt}) => {
     const user = useContext(UserContext)

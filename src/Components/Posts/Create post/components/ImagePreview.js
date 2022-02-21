@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {Image, Text, View, Dimensions, TouchableOpacity} from 'react-native'
-import xIcon from '../../../../Assets/images/icons/x-icon.png'
+import {Image, View, Dimensions, TouchableOpacity} from 'react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const win = Dimensions.get('window')
 
@@ -27,7 +27,7 @@ const ImagePreview = ({preview, previewCB, imageCB}) => {
                 onPress={()=>{imageCB(null);previewCB(null)}}
                 style={{width:"100%", display:'flex', alignItems:'flex-end', paddingTop:10, paddingRight:10}}
             >
-                <Image source={xIcon}/>
+                <FontAwesomeIcon icon='times' size={20} color='white'/>
             </TouchableOpacity>
 
             <Image source={{uri: preview}} style={{width:size.width, height:size.height}}/>

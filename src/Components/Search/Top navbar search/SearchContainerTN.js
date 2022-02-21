@@ -30,7 +30,7 @@ const SearchContainerTN = ({query}) => {
                 </TouchableOpacity>
             </View>
 
-            {type===0 ? 
+            {!loading && (type===0 ? 
             <FlatList
                 data={filterUsers(data?.get_users, query)}
                 renderItem={({item}) => <SearchUserBox user={item}/>}
@@ -39,7 +39,7 @@ const SearchContainerTN = ({query}) => {
             : <FlatList
                 data={filterCommunities(data?.get_all_groups, query)}
                 renderItem={({item}) => <SearchCommunityBox community={item}/>}
-            />}
+            />)}
         </View>
     );
 };

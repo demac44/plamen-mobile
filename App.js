@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, split } from '@apollo/client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { offsetLimitPagination } from '@apollo/client/utilities';
 
 import Login from './src/Screens/Entry/Login';
 import Register from './src/Screens/Entry/Register';
@@ -26,10 +25,11 @@ import AddStory from './src/Screens/Stories/AddStory';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCameraAlt, faCog, faNewspaper, faCompass, faBookmark, faUsers, faInbox, faSortDown, faSearch,
-        faLayerGroup, faImages, faVideo, faPlus, faTimes, faEllipsisVertical, faArrowLeft, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+        faLayerGroup, faImages, faVideo, faPlus, faTimes, faEllipsisVertical, faArrowLeft, faTrashAlt, faLock, faLockOpen} from '@fortawesome/free-solid-svg-icons';
+import Settings from './src/Screens/Profile/Settings/Settings';
 
 library.add(faCameraAlt, faCog, faNewspaper, faCompass, faBookmark, faUsers, faInbox, faSortDown, faSearch,
-            faLayerGroup, faImages, faVideo, faPlus, faTimes, faEllipsisVertical, faArrowLeft, faTrashAlt)
+            faLayerGroup, faImages, faVideo, faPlus, faTimes, faEllipsisVertical, faArrowLeft, faTrashAlt, faLock, faLockOpen)
 
 
 const httpLink = new HttpLink({
@@ -88,11 +88,6 @@ const client = new ApolloClient({
           merge(existing = [], incoming) {
             return [...existing, ...incoming];
         }},
-      //   get_messages:{
-      //     keyArgs: ['sender', "receiver", "msgID"],
-      //     merge(existing = [], incoming) {
-      //       return [...existing, ...incoming];
-      //   }},
       }
     }
   }
@@ -162,7 +157,7 @@ const App = () => {
                 <Stack.Screen name="Profile" component={Profile}/>
                 <Stack.Screen name="UsersList" component={UsersList}/>
                 <Stack.Screen name="Search" component={Search}/>
-
+                <Stack.Screen name="Settings" component={Settings}/>
               </>
               :
               <>

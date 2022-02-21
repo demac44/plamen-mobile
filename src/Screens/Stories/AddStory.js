@@ -1,11 +1,13 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 const AddStory = () => {
-  return (
-    <Text>
-        asšfaosf
-    </Text>
+    return (
+      <View style={{flex:1, backgroundColor:"#1b1b1b"}}>
+          <Text>
+              
+          </Text>
+      </View>
   )
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import UsersListUser from '../../Components/General components/Lists/UsersListUser';
-import backIcon from '../../Assets/images/icons/back-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 
