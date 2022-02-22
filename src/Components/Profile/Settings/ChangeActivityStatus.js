@@ -5,18 +5,15 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import {useQuery, useMutation} from '@apollo/client'
 import gql from 'graphql-tag'
 
-import { UserContext } from '../../../../App'
-
-const ChangeActivityStatus = () => {
-    const currentUser = useContext(UserContext)
+const ChangeActivityStatus = ({userID, username}) => {
     const [change_status] = useMutation(CHANGE_STATUS)
-    const {data, refetch, loading} = useQuery(GET_STATUS, {variables:{uid: currentUser.userID, usernm: currentUser.username}})
+    const {data, refetch, loading} = useQuery(GET_STATUS, {variables:{uid: userID, usernm: username}})
 
     const handleChange = () => {
         !loading &&
         change_status({
             variables:{
-                uid: currentUser.userID,
+                uid: userID,
                 status: !data?.get_user?.show_status
             }
         }).then(()=>{
@@ -49,7 +46,6 @@ export default ChangeActivityStatus
 
 const styles = {
     box:{
-        marginTop:60, 
         borderWidth:1, 
         borderColor:"#2f2f2f", 
         borderRadius:5, 
