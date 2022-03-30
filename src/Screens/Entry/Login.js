@@ -17,7 +17,7 @@ const Login = ({navigation, authCallback}) => {
     try {
         axios({
             method: 'POST',
-            url: 'http://192.168.1.56:8000/api/login',
+            url: 'https://plamen-main.herokuapp.com/api/login',
             data: {
                 username: username,
                 password: pass

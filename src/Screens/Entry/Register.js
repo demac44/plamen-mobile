@@ -43,7 +43,7 @@ const Register = ({navigation}) => {
         try {
             axios({
                 method:'POST',
-                url: 'http://192.168.1.56:8000/api/register',
+                url: 'https://plamen-main.herokuapp.com/api/register',
                 data: {
                     username: username.toLowerCase(),
                     fname, 

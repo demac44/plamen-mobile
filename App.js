@@ -33,13 +33,11 @@ library.add(faCameraAlt, faCog, faNewspaper, faCompass, faBookmark, faUsers, faI
 
 
 const httpLink = new HttpLink({
-  // uri:'https://plamen-main.herokuapp.com/graphql'
-  uri:'http://192.168.1.253:8000/graphql'
+  uri:'https://plamen-main.herokuapp.com/graphql'
 })
 
 const wsLink = new WebSocketLink({
-  // uri:`wss://plamen-main.herokuapp.com/graphql`,
-  uri:`ws://192.168.1.253:8000/graphql`,
+  uri:`wss://plamen-main.herokuapp.com/graphql`,
   options: {
     reconnect: true,
   }
@@ -111,7 +109,7 @@ const App = () => {
       await AsyncStorage.getItem('ACCESS_TOKEN').then(res => {
         axios({
           method:'post',
-          url: "http://192.168.1.253:8000/api/verify_token",
+          url: "http://plamen-main.herokuapp.com/api/verify_token",
           data:{
             token: res
           }
@@ -158,6 +156,10 @@ const App = () => {
                 <Stack.Screen name="UsersList" component={UsersList}/>
                 <Stack.Screen name="Search" component={Search}/>
                 <Stack.Screen name="Settings" component={Settings}/>
+                <Stack.Screen name="Login">
+                  {() => <Login authCallback={authCallback}/>}
+                </Stack.Screen>
+                <Stack.Screen name="Register" component={Register} />
               </>
               :
               <>
