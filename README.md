@@ -9,6 +9,7 @@ TECHONOLOGIES USED:
 - React Native
 - NodeJS
 - GraphQL and Apollo
+- MySQL
 - APIs
 
 
