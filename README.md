@@ -15,5 +15,3 @@ TECHONOLOGIES USED:
 
 
 
-
-Made by Demir Umejr.
