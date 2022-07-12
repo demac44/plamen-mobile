@@ -5,4 +5,4 @@
 ![alt text][img1]
 
 
-[img1]: https://github.com/demac44/plamen/blob/master/src/Assets/images/feed.png
+[img1]: https://github.com/demac44/plamen-native/blob/master/src/Assets/images/feed.png
